@@ -1,0 +1,25 @@
+{
+  "name": "yt",
+  "version": "1.0.0",
+  "description": "youTask App API Server",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shubhamqweasd/yourTask.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shubhamqweasd/yourTask/issues"
+  },
+  "homepage": "https://github.com/shubhamqweasd/yourTask#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "mongoose": "^4.5.7",
+    "morgan": "^1.7.0"
+  }
+}
