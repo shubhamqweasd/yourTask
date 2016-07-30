@@ -1,7 +1,69 @@
+var User = require('../app/models/user');
 var router = require('express').Router();
+var bcrypt   = require('bcrypt-nodejs');
 
-router.get('/test',function(req,res){
-	res.json({"success":true})
-})
+module.exports = function(passport){
 
-module.exports = router;
+	// ================ GOOGLE AUTH ROUTES ======================== //
+	router.get('/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
+    router.get('/google/callback',function(req,res){
+    	passport.authenticate('google', authHandler(req,res))(req,res)
+    });
+
+    // ================ LOCAL SIGNUP AND LOGIN ROUTES ===================//
+    router.post('/login/local',function(req,res){
+    	passport.authenticate('local-login', authHandler(req,res))(req,res)
+    });
+    router.post('/signup/local',function(req,res){
+    	if(req.body.email && req.body.password && req.body.name){
+    		User.findOne({'local.email':req.body.email},function(err,data){
+    			if(err) res.json({"success":false,"message":"SOmthing went wrong try again"})
+    			if(data) res.json({"success":false,"message":"user already exists"})
+   					else {
+						var newUser = new User();
+			    		newUser.local.email = req.body.email
+			    		newUser.local.name = req.body.name
+			    		newUser.local.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(8), null)
+			    		newUser.save(function(err){
+			    			if(err) res.json({"success":false,"message":"SOmthing went wrong try again"})
+			    				res.json({"success":true})
+
+			    		})
+		    		}
+    		})
+    	} else res.json({"success":false,"message":"Wrong format of request"})
+    })
+
+    // ============= OTHER ROUTES FOR AUTH PURPOSES =======================//
+    router.get('/profile', isLoggedIn, function(req, res) {
+        res.json({success:true,data:req.user});
+    });
+
+    router.get('/logout', function(req, res) {
+        req.logout();
+        res.json({"success":true})
+    });
+
+
+	return router;
+};
+
+function isLoggedIn(req, res, next) {
+
+    // if user is authenticated in the session, carry on 
+    if (req.isAuthenticated())
+        return next();
+
+    res.json({success:false,message:"NOT AUTHORISED"});
+}
+
+function authHandler(req,res){
+	return function(err, user, info) {
+	    if (err) return res.json({success:false,message:"INVALID EMAIL/PASSWORD"})
+	    if (!user) return res.json({success:false,message:"INVALID EMAIL/PASSWORD"});
+	    req.logIn(user, function(err) {
+	      if (err) return res.json({"success":false,"message":"SOmthing went wrong try again"})
+	      return res.json({success:true,data:user})
+	    });
+	 }
+}
