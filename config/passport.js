@@ -30,10 +30,10 @@ module.exports = function(passport){
 	                return done(err);
 
 	            if (!user)
-	                return done(null, false , {message:"INVALID EMAIl/PASSWORD"})
+	                return done(null, false , {message:"INVALID EMAIL-ID/PASSWORD"})
 
 	            if (!bcrypt.compareSync(password, user.local.password))
-	                return done(null, false , {message:"INVALID EMAIl/PASSWORD"})
+	                return done(null, false , {message:"INVALID EMAIL-ID/PASSWORD"})
 
 	            // all is well, return successful user
 	            return done(null, user);

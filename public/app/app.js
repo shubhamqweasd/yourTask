@@ -27,7 +27,20 @@ app.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlR
     .state('login', {
       url: "/login",
       template: require('./modules/auth/login.html'),
-      controller: 'loginController'
+      controller: 'loginController',
+      resolve:{
+        authenticated:['$q', 'Auth', function ($q, Auth) {
+            var deferred = $q.defer();
+            Auth.checkUser().success(function(res) {
+                if (res.success) {
+                    deferred.reject('AUTH_TRUE_REJECT_LOGIN');
+                } else {
+                    deferred.resolve();
+                }
+            });
+            return deferred.promise;
+        }]
+      }
 
     })
     .state('dashboard', {
@@ -53,7 +66,13 @@ app.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlR
 
 app.run(['$rootScope', '$location', 'Auth', function ($rootScope, $location, Auth) {
     $rootScope.$on('$stateChangeError', function (evt,current,previous,rejection) {
-       window.location.href = '/#/login'
+      if(current.url = "/"){
+        window.location.href = '/#/login'
+      } else {
+        window.location.href = '/'
+      }
+
     });
+
 }]);
 

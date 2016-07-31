@@ -9,10 +9,13 @@ authService.factory('Auth',['$http','$location',function($http,$location){
 	var user = null
 
 	return {
-		loginLocal : function(email,password){
-			var data = {email:email,password:password}
-			$http.post((loginLocalResource),data).success(function(res){
-
+		loginLocal : function(email,password,$scope){
+			$http.post(loginLocalResource,{email:email,password:password}).success(function(res){
+				if(res.success){
+					$location.path('/')
+				} else {
+					$scope.errorMessage = res.message;
+				}
 			})
 		},
 		isAuthorised : function(){
