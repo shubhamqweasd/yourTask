@@ -50,7 +50,6 @@ module.exports = function(passport){
         res.json({"success":true})
     });
 
-
 	return router;
 };
 
@@ -65,22 +64,22 @@ function isLoggedIn(req, res, next) {
 
 function authHandlerLocal(req,res){
 	return function(err, user, info) {
-	    if (err) return res.json({success:false,message:"INVALID EMAIL/PASSWORD"})
-	    if (!user) return res.json({success:false,message:"INVALID EMAIL/PASSWORD"});
+	    if (err) return res.json({success:false,message:info.message})
+	    if (!user) return res.json({success:false,message:info.message});
 	    req.logIn(user, function(err) {
 	      if (err) return res.json({"success":false,"message":"SOmthing went wrong try again"})
-	      return res.json({success:true,data:user})
+	      return res.redirect('/')
 	    });
 	 }
 }
 
 function authHandler(req,res){
 	return function(err, user, info) {
-	    if (err) return res.json({success:false,message:"INVALID EMAIL/PASSWORD"})
+	    if (err) return res.json({success:false,message:err})
 	    if (!user) return res.json({success:false,message:"INVALID EMAIL/PASSWORD"});
 	    req.logIn(user, function(err) {
 	      if (err) return res.json({"success":false,"message":"SOmthing went wrong try again"})
-	      return res.redirect('http://localhost:8080/#/');
+	      return res.redirect('/');
 	    });
 	 }
 }

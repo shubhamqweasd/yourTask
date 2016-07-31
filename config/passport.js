@@ -25,21 +25,20 @@ module.exports = function(passport){
         passReqToCallback : true // allows us to pass back the entire request to the callback
     },
     function(req, email, password, done) { 
+	        User.findOne({ 'local.email' :  email }, function(err, user) {
+	            if (err)
+	                return done(err);
 
-        User.findOne({ 'local.email' :  email }, function(err, user) {
+	            if (!user)
+	                return done(null, false , {message:"INVALID EMAIl/PASSWORD"})
 
-            if (err)
-                return done(err);
+	            if (!bcrypt.compareSync(password, user.local.password))
+	                return done(null, false , {message:"INVALID EMAIl/PASSWORD"})
 
-            if (!user)
-                return done(null, false , {message:"INVALID EMAIl/PASSWORD"})
-
-            if (!bcrypt.compareSync(password, user.local.password))
-                return done(null, false , {message:"INVALID EMAIl/PASSWORD"})
-
-            // all is well, return successful user
-            return done(null, user);
-        });
+	            // all is well, return successful user
+	            return done(null, user);
+	        });
+       
     }));
 
 
