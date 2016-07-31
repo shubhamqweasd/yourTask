@@ -1,5 +1,6 @@
 var LocalStrategy   = require('passport-local').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
 var User = require('../app/models/user');
 var bcrypt   = require('bcrypt-nodejs');
 
@@ -81,6 +82,44 @@ module.exports = function(passport){
 	    });
 
 	}));
+
+	//FACEBOOK STRATEGY
+	passport.use(new FacebookStrategy({
+        clientID        : "1146988915365407",
+        clientSecret    : "cf3e2c1c09a99b1b1867eb57bf079d5f",
+        callbackURL     : "http://localhost:3000/auth/facebook/callback",
+        profileFields	: ['id', 'emails', 'name']
+    },
+    function(token, refreshToken, profile, done) {
+
+        process.nextTick(function() {
+
+            User.findOne({ 'facebook.id' : profile.id }, function(err, user) {
+                if (err)
+                    return done(err);
+                if (user) {
+                    return done(null, user); // user found, return that user
+                } else {
+                	
+                    var newUser            = new User();
+                    newUser.facebook.id    = profile.id;                
+                    newUser.facebook.token = token;                    
+                    newUser.facebook.name  = profile.name.givenName + ' ' + profile.name.familyName; // look at the passport user profile to see how names are returned
+                    newUser.facebook.email = profile.emails[0].value; // facebook can return multiple emails so we'll take the first
+
+                    // save our user to the database
+                    newUser.save(function(err) {
+                        if (err)
+                            throw err;
+                        // if successful, return the new user
+                        return done(null, newUser);
+                    });
+                }
+
+            });
+        });
+
+    }));
 
 
 

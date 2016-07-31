@@ -4,7 +4,13 @@ var bcrypt   = require('bcrypt-nodejs');
 
 module.exports = function(passport){
 
-	// ================ GOOGLE AUTH ROUTES ======================== //
+	// ================ FACEBOOK AUTH ROUTES ======================== //
+	router.get('/facebook', passport.authenticate('facebook', { scope : ['email'] }));
+    router.get('/facebook/callback',function(req,res){
+    	passport.authenticate('facebook', authHandler(req,res))(req,res)
+    });
+
+    // ================ GOOGLE AUTH ROUTES ======================== //
 	router.get('/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
     router.get('/google/callback',function(req,res){
     	passport.authenticate('google', authHandler(req,res))(req,res)
@@ -12,7 +18,7 @@ module.exports = function(passport){
 
     // ================ LOCAL SIGNUP AND LOGIN ROUTES ===================//
     router.post('/login/local',function(req,res){
-    	passport.authenticate('local-login', authHandler(req,res))(req,res)
+    	passport.authenticate('local-login', authHandlerLocal(req,res))(req,res)
     });
     router.post('/signup/local',function(req,res){
     	if(req.body.email && req.body.password && req.body.name){
@@ -57,13 +63,24 @@ function isLoggedIn(req, res, next) {
     res.json({success:false,message:"NOT AUTHORISED"});
 }
 
-function authHandler(req,res){
+function authHandlerLocal(req,res){
 	return function(err, user, info) {
 	    if (err) return res.json({success:false,message:"INVALID EMAIL/PASSWORD"})
 	    if (!user) return res.json({success:false,message:"INVALID EMAIL/PASSWORD"});
 	    req.logIn(user, function(err) {
 	      if (err) return res.json({"success":false,"message":"SOmthing went wrong try again"})
 	      return res.json({success:true,data:user})
+	    });
+	 }
+}
+
+function authHandler(req,res){
+	return function(err, user, info) {
+	    if (err) return res.json({success:false,message:"INVALID EMAIL/PASSWORD"})
+	    if (!user) return res.json({success:false,message:"INVALID EMAIL/PASSWORD"});
+	    req.logIn(user, function(err) {
+	      if (err) return res.json({"success":false,"message":"SOmthing went wrong try again"})
+	      return res.redirect('http://localhost:8080/#/');
 	    });
 	 }
 }
