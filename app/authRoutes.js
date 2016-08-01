@@ -23,8 +23,8 @@ module.exports = function(passport){
     router.post('/signup/local',function(req,res){
     	if(req.body.email && req.body.password && req.body.name){
     		User.findOne({'local.email':req.body.email},function(err,data){
-    			if(err) res.json({"success":false,"message":"SOmthing went wrong try again"})
-    			if(data) res.json({"success":false,"message":"user already exists"})
+    			if(err) res.json({"success":false,"message":"Somthing went wrong try again"})
+    			if(data) res.json({"success":false,"message":"User with same username/email already exists."})
    					else {
 						var newUser = new User();
 			    		newUser.local.email = req.body.email

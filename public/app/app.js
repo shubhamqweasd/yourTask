@@ -27,21 +27,12 @@ app.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlR
     .state('login', {
       url: "/login",
       template: require('./modules/auth/login.html'),
-      controller: 'loginController',
-      resolve:{
-        authenticated:['$q', 'Auth', function ($q, Auth) {
-            var deferred = $q.defer();
-            Auth.checkUser().success(function(res) {
-                if (res.success) {
-                    deferred.reject('AUTH_TRUE_REJECT_LOGIN');
-                } else {
-                    deferred.resolve();
-                }
-            });
-            return deferred.promise;
-        }]
-      }
-
+      controller: 'loginController'
+    })
+    .state('signup', {
+      url: "/signup",
+      template: require('./modules/auth/register.html'),
+      controller: 'signupController'
     })
     .state('dashboard', {
       url: "/",
@@ -64,15 +55,36 @@ app.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlR
     })
 }]);
 
-app.run(['$rootScope', '$location', 'Auth', function ($rootScope, $location, Auth) {
+app.run(['$rootScope', '$location', 'Auth','$state', function ($rootScope, $location, Auth, $state) {
     $rootScope.$on('$stateChangeError', function (evt,current,previous,rejection) {
       if(current.url = "/"){
-        window.location.href = '/#/login'
-      } else {
-        window.location.href = '/'
+        $state.go('login')
       }
-
     });
 
 }]);
+
+app.controller('navController',['$scope','$http','$location','Auth',function($scope,$http,$location,Auth){
+  $scope.isLoggedIn = false;
+
+  $scope.redirect = function(where){
+    $location.path(where)
+  }
+
+  $scope.$on('LOGGED_IN',function(evt,data){
+    $scope.isLoggedIn = true;
+    if(data.local) $scope.name = data.local.name
+    if(data.google) $scope.name = data.google.name
+    if(data.facebook) $scope.name = data.facebook.name
+  })
+
+  $scope.$on('LOGGED_OUT',function(evt,data){
+    $scope.isLoggedIn = false;
+  })
+
+  $scope.logout = function(){
+    Auth.logout()
+  }
+
+}])
 

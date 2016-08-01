@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
-var port = process.env.PORT || 3000; 
+var port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
+var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var database = require('./config/database');
@@ -34,7 +35,6 @@ require('./config/passport')(passport)
 app.use('/auth',require('./app/authRoutes')(passport))
 
 
-
-app.listen(port, function () {
-  console.log('yourTask app listening on port ----  '+ port);
+app.listen(port, server_ip_address, function () {
+  console.log( "Listening on " + server_ip_address + ", server_port " + port )
 });
