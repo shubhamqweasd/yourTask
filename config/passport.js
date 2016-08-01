@@ -47,7 +47,7 @@ module.exports = function(passport){
 
     clientID        : "588172686298-pu55l2kld3m65bjqj2fdp7kblf73410k.apps.googleusercontent.com",
     clientSecret    : "pK6PTup9_TGKDFThapbK73JP",
-    callbackURL     : "http://localhost:3000/auth/google/callback",
+    callbackURL     : "/auth/google/callback",
 
 	},
 	function(token, refreshToken, profile, done) {

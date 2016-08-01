@@ -4,29 +4,8 @@
 	<title>yourTask</title>
 	<link rel="stylesheet" type="text/css" href="./app/styles/bootstrap.min.css">
 <body ng-app="app">
-	<md-toolbar ng-cloak ng-controller="navController">
-      <div class="md-toolbar-tools">
-        <h2>
-          <span ng-click="redirect('/')" class="white hand">yourTask App</span>
-        </h2>
-        <span flex></span>
-        <md-button ng-hide="isLoggedIn" class="md-raised" aria-label="Learn More" ng-click="redirect('/login')">
-          Login
-        </md-button>
-        <md-button ng-hide="isLoggedIn" class="md-raised md-warn" aria-label="Learn More" ng-click="redirect('/signup')">
-          Sign-up
-        </md-button>
-
-        <md-button ng-show="isLoggedIn"><span class="white">{{name}}</span></md-button>
-
-        <md-button ng-show="isLoggedIn" class="md-raised md-warn" aria-label="Learn More" ng-click="logout()">
-          Logout
-        </md-button>
-      </div>
-  </md-toolbar>
-
-	<div ui-view></div>
-
+  <div ng-include="'./app/modules/nav.html'"></div>
+  <div ui-view></div>
 <script type="text/javascript" src="./app.min.js"></script>
 </body>
 </html>

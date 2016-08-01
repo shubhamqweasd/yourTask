@@ -1,5 +1,5 @@
 if(process.env.OPENSHIFT_MONGODB_DB_URL){
- 	mongodb_connection_string = process.env.OPENSHIFT_MONGODB_DB_URL + 'yourtask';
+ 	mongodb_connection_string = process.env.OPENSHIFT_MONGODB_DB_URL + 'task';
 } else {
 	mongodb_connection_string = 'mongodb://127.0.0.1:27017/' + 'yourtask';
 }

@@ -66,7 +66,6 @@ app.run(['$rootScope', '$location', 'Auth','$state', function ($rootScope, $loca
 
 app.controller('navController',['$scope','$http','$location','Auth',function($scope,$http,$location,Auth){
   $scope.isLoggedIn = false;
-
   $scope.redirect = function(where){
     $location.path(where)
   }
