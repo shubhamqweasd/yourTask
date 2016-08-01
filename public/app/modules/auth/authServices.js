@@ -12,20 +12,25 @@ authService.factory('Auth',['$http','$location','$rootScope','$state',function($
 
 	return {
 		loginLocal : function(email,password,$scope){
+			$scope.wait = true
 			$http.post(loginLocalResource,{email:email,password:password}).success(function(res){
 				if(res.success){
+					$scope.wait = false;
 					$location.path('/')
 				} else {
+					$scope.wait = false;
 					$scope.errorMessage = res.message;
 				}
 			})
 		},
 		signupLocal : function(name,email,password,passwordConfirm,$scope){
+			$scope.wait = true
 			if(password == passwordConfirm){
 				$http.post(signupLocalResource,{name:name,email:email,password:password}).success(function(res){
 					if(res.success){
 						this.loginLocal(email,password,$scope)
 					} else {
+						$scope.wait = false;
 						$scope.errorMessage = res.message;
 						$scope.name =''
 						$scope.email =''
@@ -34,6 +39,7 @@ authService.factory('Auth',['$http','$location','$rootScope','$state',function($
 					}
 				}.bind(this))
 			} else {
+				$scope.wait = false;
 				$scope.errorMessage = "PASSWORD DO NOT MATCH"
 				$scope.password = ''
 				$scope.passwordConfirm = ''
@@ -51,9 +57,11 @@ authService.factory('Auth',['$http','$location','$rootScope','$state',function($
 		checkUser : function(){
 			return $http.get(profileResource)
 		},
-		logout : function(){
+		logout : function($scope){
+			$scope.logoutProgress = true
 			$http.get(logoutResource).success(function(res){
 				if(res.success){
+					$scope.logoutProgress = false
 					user = null
 					$rootScope.$broadcast('LOGGED_OUT',user)
 					$state.go('login')

@@ -47,6 +47,8 @@
           <span class="help-block">{{errorMessage ? errorMessage : ''}}</span>
 
           <button class="btn btn-lg btn-primary btn-block color_nav" type="submit">Login</button>
+          <md-progress-linear class="md-warn" md-mode="indeterminate" ng-show="wait"></md-progress-linear>
+
         </form>
       </div>
     </div>

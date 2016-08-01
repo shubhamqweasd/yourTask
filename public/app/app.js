@@ -66,6 +66,7 @@ app.run(['$rootScope', '$location', 'Auth','$state', function ($rootScope, $loca
 
 app.controller('navController',['$scope','$http','$location','Auth',function($scope,$http,$location,Auth){
   $scope.isLoggedIn = false;
+  $scope.logoutProgress = false;
   $scope.redirect = function(where){
     $location.path(where)
   }
@@ -82,7 +83,7 @@ app.controller('navController',['$scope','$http','$location','Auth',function($sc
   })
 
   $scope.logout = function(){
-    Auth.logout()
+    Auth.logout($scope)
   }
 
 }])

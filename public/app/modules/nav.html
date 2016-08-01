@@ -13,8 +13,9 @@
 
         <md-button ng-show="isLoggedIn"><span class="white">{{name}}</span></md-button>
 
-        <md-button ng-show="isLoggedIn" class="md-raised md-warn" aria-label="Learn More" ng-click="logout()">
+        <md-button ng-show="isLoggedIn && !logoutProgress" class="md-raised md-warn" aria-label="Learn More" ng-click="logout()">
           Logout
         </md-button>
+        <md-progress-circular md-mode="indeterminate" md-diameter="30px" class="md-warn" ng-show="logoutProgress"></md-progress-circular>
       </div>
   </md-toolbar>
