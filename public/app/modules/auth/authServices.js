@@ -1,6 +1,6 @@
 var authService = angular.module('app.auth.services',[]);
 
-authService.factory('Auth',['$http','$location','$rootScope','$state',function($http,$location,$rootScope,$state){
+authService.factory('Auth',['$http','$location','$rootScope','$state','$mdToast',function($http,$location,$rootScope,$state,$mdToast){
 
 	//resources
 	var loginLocalResource = "/auth/login/local"
@@ -19,7 +19,10 @@ authService.factory('Auth',['$http','$location','$rootScope','$state',function($
 					$location.path('/')
 				} else {
 					$scope.wait = false;
-					$scope.errorMessage = res.message;
+					$mdToast.show($mdToast.simple().textContent(res.message));
+					$scope.name =''
+					$scope.email =''
+					//$scope.errorMessage = res.message;
 				}
 			})
 		},
@@ -31,7 +34,8 @@ authService.factory('Auth',['$http','$location','$rootScope','$state',function($
 						this.loginLocal(email,password,$scope)
 					} else {
 						$scope.wait = false;
-						$scope.errorMessage = res.message;
+						$mdToast.show($mdToast.simple().textContent(res.message));
+						//$scope.errorMessage = res.message;
 						$scope.name =''
 						$scope.email =''
 						$scope.password = ''
@@ -40,7 +44,8 @@ authService.factory('Auth',['$http','$location','$rootScope','$state',function($
 				}.bind(this))
 			} else {
 				$scope.wait = false;
-				$scope.errorMessage = "PASSWORD DO NOT MATCH"
+				$mdToast.show($mdToast.simple().textContent("PASSWORD DO NOT MATCH"));
+				//$scope.errorMessage = "PASSWORD DO NOT MATCH"
 				$scope.password = ''
 				$scope.passwordConfirm = ''
 			}
