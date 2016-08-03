@@ -13,9 +13,10 @@ var angularMaterial = require('angular-material')
 //controllers dependencies
 var authModule = require('./modules/auth/authControllers')
 var dashModule = require('./modules/dash/dashControllers')
+var navModule = require('./modules/nav/nav')
 
 
-var app = angular.module('app',[uirouter,angularMaterial,angularAnimate,dashModule.name,authModule.name]);
+var app = angular.module('app',[uirouter,angularMaterial,angularAnimate,navModule.name,dashModule.name,authModule.name]);
 
 //config routes
 app.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlRouterProvider) {
@@ -63,28 +64,4 @@ app.run(['$rootScope', '$location', 'Auth','$state', function ($rootScope, $loca
     });
 
 }]);
-
-app.controller('navController',['$scope','$http','$location','Auth',function($scope,$http,$location,Auth){
-  $scope.isLoggedIn = false;
-  $scope.logoutProgress = false;
-  $scope.redirect = function(where){
-    $location.path(where)
-  }
-
-  $scope.$on('LOGGED_IN',function(evt,data){
-    $scope.isLoggedIn = true;
-    if(data.local) $scope.name = data.local.name
-    if(data.google) $scope.name = data.google.name
-    if(data.facebook) $scope.name = data.facebook.name
-  })
-
-  $scope.$on('LOGGED_OUT',function(evt,data){
-    $scope.isLoggedIn = false;
-  })
-
-  $scope.logout = function(){
-    Auth.logout($scope)
-  }
-
-}])
 
