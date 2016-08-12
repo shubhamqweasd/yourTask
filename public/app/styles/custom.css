@@ -71,7 +71,30 @@
 .omb_login .omb_loginForm  .help-block {
     color: red;
 }
+.box_border{
+	 		border: dashed 1px #ccc;
+	 		padding: 10px;
+	 	}
+		
+		.box_active{
+			background: #f5f5f5;
+		}
+	 	.box_center{
+	 		margin:0 5px; width:32.5% !important;
+	 	}
 
+	 	#form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; margin-left: -9px}
+      #form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+      #form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages li { padding: 5px 10px; }
+      #messages li:nth-child(odd) { background: #eee; }
+
+	 	@media (max-width:767px) { 
+	 		.box_center{
+		 		margin:0 0px; width:100% !important;
+		 	}
+	 	}
 	
 @media (min-width: 768px) {
     .omb_login .omb_forgotPwd {

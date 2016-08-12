@@ -30,6 +30,9 @@ module.exports = {
                 comments: false,
             },
         }),
-        new webpack.optimize.DedupePlugin()
+        new webpack.optimize.DedupePlugin(),
+        new webpack.ProvidePlugin({
+          io: 'socket.io-client'
+        })
     ]
 }
