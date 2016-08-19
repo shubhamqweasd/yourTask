@@ -65,7 +65,7 @@ authService.factory('Auth',['$http','$location','$rootScope','$state','$mdToast'
 		setUser : function(userP){
 			if(userP){
 				user = userP
-				$rootScope.$broadcast('LOGGED_IN',user)
+				$rootScope.$broadcast('LOGGED_IN',this.getUsername())
 			} else user = null
 		},
 		checkUser : function(){

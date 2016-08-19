@@ -14,9 +14,7 @@ navModule.directive('navBar',[function(){
 
 						  $scope.$on('LOGGED_IN',function(evt,data){
 						    $scope.isLoggedIn = true;
-						    if(data.local) $scope.name = data.local.name
-						    if(data.google) $scope.name = data.google.name
-						    if(data.facebook) $scope.name = data.facebook.name
+						    $scope.name = data
 						  })
 
 						  $scope.$on('LOGGED_OUT',function(evt,data){
