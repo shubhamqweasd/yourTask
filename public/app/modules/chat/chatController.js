@@ -1,15 +1,16 @@
-module.exports = ['$scope','$http',function($scope,$http){
+module.exports = ['$scope','$http','Auth','Dash',function($scope,$http,Auth,Dash){
 
-	var socket = io();
 	
+	var user = Auth.getUsername()
+
 	$scope.send = function(msg){
-		socket.emit('chat',msg)
+		Dash.getSocket().emit('chat',{name:user,message:msg})
 		$scope.msg = ''
 	}
 
-	socket.on('chat', function(msg){
+	Dash.getSocket().on('chat', function(data){
 		messageElement = document.getElementById('messages')
-		angular.element(messageElement).append('<li><B>'+msg+'</B></li>')
+		angular.element(messageElement).append('<li><strong>'+data.name+' : </strong><B>'+data.message+'</B></li>')
 	});
 
 }]

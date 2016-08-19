@@ -53,6 +53,15 @@ authService.factory('Auth',['$http','$location','$rootScope','$state','$mdToast'
 		isAuthorised : function(){
 			return user
 		},
+		getUsername : function(){
+			if(user){
+				if(user.local) return user.local.name
+				if(user.google) return user.google.name
+				if(user.facebook) return user.facebook.name
+			} else {
+				return false
+			}
+		},
 		setUser : function(userP){
 			if(userP){
 				user = userP

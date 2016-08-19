@@ -40,6 +40,6 @@ require('./app/chatRoutes')(io)
 app.use('/auth',require('./app/authRoutes')(passport))
 
 
-server.listen(port, server_ip_address, function () {
+server.listen(port,server_ip_address, function () {
   console.log( "App running on " + server_ip_address + ":" + port )
 });
