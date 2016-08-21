@@ -9,6 +9,9 @@ chatService.factory('Chat',['$http','$location','$rootScope','$state','$mdToast'
 		},
 		getSocket : function(){
 			return socket || false
+		},
+		removeListener : function(which){
+			socket.off(which)
 		}
 	}
 	

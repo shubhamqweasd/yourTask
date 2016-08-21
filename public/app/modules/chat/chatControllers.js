@@ -23,6 +23,10 @@ chatModule.controller('chatController',['$scope','$http','Chat','$state','Auth',
    		messageElement.scrollTop = messageElement.scrollHeight - messageElement.clientHeight;
 	});
 
+	$scope.$on("$destroy",function(){
+		Chat.removeListener('chat')
+	})
+
 }])
 
 
