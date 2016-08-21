@@ -16,11 +16,11 @@ authService.factory('Auth',['$http','$location','$rootScope','$state','$mdToast'
 			$http.post(loginLocalResource,{email:email,password:password}).success(function(res){
 				if(res.success){
 					$scope.wait = false;
-					$location.path('/')
+					$state.go('dashboard')
 				} else {
 					$scope.wait = false;
 					$mdToast.show($mdToast.simple().textContent(res.message));
-					$scope.name =''
+					$scope.password =''
 					$scope.email =''
 					//$scope.errorMessage = res.message;
 				}
@@ -51,7 +51,7 @@ authService.factory('Auth',['$http','$location','$rootScope','$state','$mdToast'
 			}
 		},
 		isAuthorised : function(){
-			return user
+			return user != null
 		},
 		getUsername : function(){
 			if(user){

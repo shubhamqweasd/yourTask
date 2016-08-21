@@ -1,31 +1,24 @@
+ 
+<div class="col-sm-1 col-lg-1 col-md-1" style="padding-left: 0px;">
+	<nav class="nav" style="height: 500px;">
+		<div class="burger">
+			<div class="burger__patty"></div>
+		</div>
 
-<br>
-<br>
-<div class="col-sm-12">
-	<div class="col-sm-1 col-md-1 col-lg-1">
-		<md-button aria-label="Comment">
-			<img src="/images/home.png" class="menuBtn">
-		</md-button>
-	</div>
-	<div class="col-sm-3 col-sm-offset-1 col-md-3 col-md-offset-1 col-lg-3" >
-		<md-card class="hoverCard" ng-click="openChat()">
-			<img src="/images/chat.png" class="cardStyle">
-			<h3 class="alignc">Chat Room</h3>
-			<h4 class="alignc">Live Chat room for the people currently logged in</h4>			
-		</md-card>
-	</div>
-	<div class="col-sm-3 col-md-3 col-lg-3" >
-		<md-card class="hoverCard">
-			<img src="/images/folder.png" class="cardStyle">
-			<h3 class="alignc">Storage</h3>
-			<h4 class="alignc">Cloud Storage and vault for all your files and folder</h4>			
-		</md-card>
-	</div>
-	<div class="col-sm-3 col-md-3 col-lg-3" >
-		<md-card class="hoverCard">
-			<img src="/images/todo.png" class="cardStyle">
-			<h3 class="alignc">Tasks</h3>
-			<h4 class="alignc">ToDo and tasks list to manage your future and current tasks</h4>			
-		</md-card>
-	</div>
+		<ul class="nav__list" style="height: 100%">
+			<li class="nav__item">
+				<a href class="nav__link c-blue" ng-click="go('dashboard.chat')"><img src="/images/chat.png" class="cardStyle"></a>
+			</li>
+			<li class="nav__item">
+				<a href class="nav__link c-yellow scrolly"><img src="/images/folder.png" class="cardStyle"></a>
+			</li>
+			<li class="nav__item">
+				<a href class="nav__link c-red"><img src="/images/todo.png" class="cardStyle"></i></a>
+			</li>
+		</ul>
+	</nav>
+</div>
+ 
+<div class="col-sm-11 col-lg-11 col-md-11" style="padding-left: 0px;">
+	<div ui-view></div>
 </div>

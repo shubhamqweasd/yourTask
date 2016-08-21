@@ -1,6 +1,7 @@
 var webpack = require('webpack');
 
 module.exports = {
+    //devtool: 'source-map',
     entry: './public/app/app.js',
     output: {
         path: './',
@@ -31,6 +32,11 @@ module.exports = {
             },
         }),
         new webpack.optimize.DedupePlugin(),
+        new webpack.DefinePlugin({
+            'process.env': {
+                'NODE_ENV': JSON.stringify('production')
+            }
+        }),
         new webpack.ProvidePlugin({
           io: 'socket.io-client'
         })
