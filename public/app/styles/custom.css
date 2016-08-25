@@ -448,6 +448,7 @@ ul {
   transform: translate(-50%, -50%);
 }
 .chatContainer .left {
+  overflow-x:scroll; 
   float: left;
   width: 20.6%;
   height: 100%;

@@ -1,6 +1,6 @@
 var authService = angular.module('app.auth.services',[]);
 
-authService.factory('Auth',['$http','$location','$rootScope','$state','$mdToast',function($http,$location,$rootScope,$state,$mdToast){
+authService.factory('Auth',['$http','$location','$rootScope','$state','$mdToast','Chat',function($http,$location,$rootScope,$state,$mdToast,Chat){
 
 	//resources
 	var loginLocalResource = "/auth/login/local"
@@ -78,6 +78,9 @@ authService.factory('Auth',['$http','$location','$rootScope','$state','$mdToast'
 					$scope.logoutProgress = false
 					user = null
 					$rootScope.$broadcast('LOGGED_OUT',user)
+					if(Chat.getSocket()){
+						Chat.getSocket().disconnect()
+					}
 					$state.go('login')
 				}
 			})
