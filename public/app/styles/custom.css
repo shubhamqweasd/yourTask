@@ -910,3 +910,14 @@ ul {
   text-decoration: none;
 }
 
+md-toolbar{
+  min-height: 35px !important;
+}
+
+.h35{
+  height: 35px !important;
+}
+
+.h600{
+  height: 600px !important;
+}

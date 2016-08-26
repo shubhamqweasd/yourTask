@@ -38,6 +38,7 @@ require('./app/chatRoutes')(io)
 
 // ============ Routes =========== //
 app.use('/auth',require('./app/authRoutes')(passport))
+app.use('/task',require('./app/taskRoutes')())
 
 
 server.listen(port,server_ip_address, function () {

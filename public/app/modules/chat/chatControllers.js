@@ -9,7 +9,10 @@ chatModule.controller('chatController',['$scope','$http','Chat','$state','Auth',
 	if(Chat.getSocket() == false){
 		Chat.setSocket()
 		console.log('SOCKET REGISTERED')
+	} else {
+		$scope.clients = Chat.getClients()
 	}
+	
 	//register client detail to server
 	Chat.getSocket().on('connect',function(){
 		var currDate = new Date()

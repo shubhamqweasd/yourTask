@@ -13,11 +13,12 @@ var angularMaterial = require('angular-material')
 //controllers dependencies
 var authModule = require('./modules/auth/authControllers')
 var dashModule = require('./modules/dash/dashControllers')
+var taskModule = require('./modules/task/taskControllers')
 var chatModule = require('./modules/chat/chatControllers')
 var navModule = require('./modules/nav/nav')
 
 
-var app = angular.module('app',[uirouter,angularMaterial,angularAnimate,chatModule.name,navModule.name,dashModule.name,authModule.name]);
+var app = angular.module('app',[uirouter,angularMaterial,angularAnimate,taskModule.name,chatModule.name,navModule.name,dashModule.name,authModule.name]);
 
 //config routes
 app.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlRouterProvider) {
@@ -59,6 +60,24 @@ app.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlR
       url: "/chat",
       template: require('./modules/chat/chat.html'),
       controller: 'chatController',
+      resolve:{
+        authenticated:['$q', 'Auth', function ($q, Auth) {
+            var deferred = $q.defer();
+            Auth.checkUser().success(function(res) {
+                if (res.success) {
+                    deferred.resolve();
+                } else {
+                    deferred.reject('AUTH_FALSE');
+                }
+            });
+            return deferred.promise;
+        }]
+      }
+    })
+    .state('dashboard.task', {
+      url: "/task",
+      template: require('./modules/task/task.html'),
+      controller: 'taskController',
       resolve:{
         authenticated:['$q', 'Auth', function ($q, Auth) {
             var deferred = $q.defer();
