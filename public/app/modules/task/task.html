@@ -26,10 +26,56 @@
     <div class="modal-header">
         <h3 class="modal-title">Add a task</h3>
     </div>
-    <div class="modal-body">
-        
-    </div>
-    <div class="modal-footer">
-        <md-button class="md-raised md-primary">Add</md-button>
-    </div>
+    <form ng-submit="submitTask()" style="width: 500px">
+	    <div class="modal-body">
+			<md-input-container>
+				<label>Task Name</label>
+				<input required ng-model="newTask.name">
+			</md-input-container> 
+			<md-input-container>
+				<label>Type of Task</label>
+				<input required ng-model="newTask.type">
+			</md-input-container>
+			<br>
+			<md-input-container>
+				<label>Task Description</label>
+				<textarea ng-model="newTask.description" required md-maxlength="150" rows="5" md-select-on-focus></textarea>
+			</md-input-container>
+			<br>
+			<md-input-container>
+				<label>Assigned To</label>
+				<md-autocomplete required md-selected-item="newTask.assigned_to" md-search-text="searchText" md-items="item in getAssignEmails(searchText)" md-item-text="item" style="width: 200% !important;">
+				  <md-item-template>
+				    <span md-highlight-text="searchText">{{item}}</span>
+				  </md-item-template>
+				  <md-not-found>
+				    No User found.
+				  </md-not-found>
+				</md-autocomplete>
+			</md-input-container> 
+	    </div>
+	    <div class="col-sm-12 col-lg-12 col-md-12">
+	    	<md-datepicker class="fl" required ng-model="newTask.expires_on" md-placeholder="Expires On"
+            md-min-date="minDate" md-max-date="maxDate">
+            </md-datepicker>
+	    	<md-input-container class="fl">
+				<label>Priority</label>
+				<md-select required ng-model="newTask.priority" style="margin-top: -13px;
+    											  margin-left: 35px;">
+	              <md-option value="{{'high'}}">
+	                {{'High'}}
+	              </md-option>
+	              <md-option value="{{'medium'}}">
+	                {{'Medium'}}
+	              </md-option>
+	              <md-option value="{{'low'}}">
+	                {{'Low'}}
+	              </md-option>
+	            </md-select>
+			</md-input-container> 
+	        <md-button class="md-raised md-primary fr" type="submit">Add</md-button>
+	    </div>
+	    <br>
+	    <h4 style="color: red;text-align: center;">{{err}}</h4>
+    </form>
 </script>

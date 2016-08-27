@@ -4,8 +4,8 @@ module.exports = {
     //devtool: 'source-map',
     entry: './public/app/app.js',
     output: {
-        path: './',
-        filename: './public/app.min.js',
+        path: './public/',
+        filename: 'app.min.js',
     },
     module: {
         loaders: [{

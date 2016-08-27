@@ -1,6 +1,6 @@
 <div class="wrapper">
     <div class="chatContainer">
-        <div class="left">
+        <div class="left col-sm-4">
             <ul class="people">
                 <li class="person" ng-repeat="x in clients">
                     <!-- <img src="http://s13.postimg.org/ih41k9tqr/img1.jpg" alt="" /> -->
@@ -10,22 +10,25 @@
                 </li>
             </ul>
         </div>
-        <div class="right">
+        <div class="right col-sm-8">
             <div class="chat" data-chat="person1" id="messages" >
                 <div class="conversation-start">
-                <span>Welcome to chat room !</span>
+                <h4>Welcome to chat room !</h4>
                 </div>
                 <div class="bubble you">
-                    Hello,
-                </div>
-                
+                    Hello from Admin,
+                </div>                
             </div>
-            <div class="write">
+             <div class="col-lg-12 ml-mr-no">
                 <form ng-submit="send(msg)">
-                    <input type="text" required ng-model="msg" />
-                    <md-button type="submit" class="md-raised md-primary">Send</md-button>
-                </form>
-            </div>
+                    <div class="input-group">
+                      <input type="text" class="form-control po-inp" required ng-model="msg" placeholder="type your message">
+                      <span class="input-group-btn">
+                        <md-button type="submit" class="md-raised md-primary">Send</md-button>
+                      </span>
+                    </div>
+                  </div>
+              </form>
         </div>
     </div>
 </div>

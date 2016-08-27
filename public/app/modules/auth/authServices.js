@@ -1,6 +1,6 @@
 var authService = angular.module('app.auth.services',[]);
 
-authService.factory('Auth',['$http','$location','$rootScope','$state','$mdToast','Chat',function($http,$location,$rootScope,$state,$mdToast,Chat){
+authService.factory('Auth',['$http','$location','$rootScope','$state','$mdToast','Chat','$q',function($http,$location,$rootScope,$state,$mdToast,Chat,$q){
 
 	//resources
 	var loginLocalResource = "/auth/login/local"
@@ -70,6 +70,18 @@ authService.factory('Auth',['$http','$location','$rootScope','$state','$mdToast'
 		},
 		checkUser : function(){
 			return $http.get(profileResource)
+		},
+		authenticate : function(){
+			var deferred = $q.defer();
+            this.checkUser().success(function(res) {
+                if (res.success) {
+                    this.setUser(res.data)
+                    deferred.resolve();
+                } else {
+                    deferred.reject('AUTH_FALSE');
+                }
+            }.bind(this));
+            return deferred.promise;
 		},
 		logout : function($scope){
 			$scope.logoutProgress = true

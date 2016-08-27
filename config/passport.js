@@ -55,12 +55,14 @@ module.exports = function(passport){
 	    // make the code asynchronous
 	    process.nextTick(function() {
 	        // try to find the user based on their google id
-	        User.findOne({ 'google.id' : profile.id }, function(err, user) {
+	        User.findOne({$or:[{ 'google.id' : profile.id },{ 'local.email' : profile.emails[0].value },{ 'facebook.email' : profile.emails[0].value }]}, function(err, user) {
 	            if (err)
 	                return done(err);
 
 	            if (user) {
-	                return done(null, user);
+                    if(!user.google.id){
+                        return done(null, false) // if user found from another login vendor , return user already exists
+                    } else return done(null, user)
 	            } else {
 	              
 	                var newUser	= new User();
@@ -93,11 +95,13 @@ module.exports = function(passport){
 
         process.nextTick(function() {
 
-            User.findOne({ 'facebook.id' : profile.id }, function(err, user) {
+            User.findOne({$or:[{ 'facebook.id' : profile.id },{ 'local.email' : profile.emails[0].value },{ 'google.email' : profile.emails[0].value }]}, function(err, user) {
                 if (err)
                     return done(err);
                 if (user) {
-                    return done(null, user); // user found, return that user
+                    if(!user.facebook.id){
+                        return done(null, false) // if user found from another login vendor , return user already exists
+                    } else return done(null, user)
                 } else {
                 	
                     var newUser            = new User();

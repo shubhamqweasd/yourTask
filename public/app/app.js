@@ -42,55 +42,20 @@ app.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlR
       template: require('./modules/dash/dash.html'),
       controller: 'dashController',
       resolve:{
-        authenticated:['$q', 'Auth', function ($q, Auth) {
-            var deferred = $q.defer();
-            Auth.checkUser().success(function(res) {
-                if (res.success) {
-                    Auth.setUser(res.data)
-                    deferred.resolve();
-                } else {
-                    deferred.reject('AUTH_FALSE');
-                }
-            });
-            return deferred.promise;
+        authenticated:['Auth', function (Auth) {
+            return Auth.authenticate()
         }]
       }
     })
     .state('dashboard.chat', {
       url: "/chat",
       template: require('./modules/chat/chat.html'),
-      controller: 'chatController',
-      resolve:{
-        authenticated:['$q', 'Auth', function ($q, Auth) {
-            var deferred = $q.defer();
-            Auth.checkUser().success(function(res) {
-                if (res.success) {
-                    deferred.resolve();
-                } else {
-                    deferred.reject('AUTH_FALSE');
-                }
-            });
-            return deferred.promise;
-        }]
-      }
+      controller: 'chatController'
     })
     .state('dashboard.task', {
       url: "/task",
       template: require('./modules/task/task.html'),
-      controller: 'taskController',
-      resolve:{
-        authenticated:['$q', 'Auth', function ($q, Auth) {
-            var deferred = $q.defer();
-            Auth.checkUser().success(function(res) {
-                if (res.success) {
-                    deferred.resolve();
-                } else {
-                    deferred.reject('AUTH_FALSE');
-                }
-            });
-            return deferred.promise;
-        }]
-      }
+      controller: 'taskController'
     })
 }]);
 
@@ -100,4 +65,5 @@ app.run(['$rootScope', '$location', 'Auth','$state', function ($rootScope, $loca
     });
 
 }]);
+
 

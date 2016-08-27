@@ -22,7 +22,7 @@ module.exports = function(passport){
     });
     router.post('/signup/local',function(req,res){
     	if(req.body.email && req.body.password && req.body.name){
-    		User.findOne({'local.email':req.body.email},function(err,data){
+    		User.findOne({$or:[{'local.email':req.body.email},{'google.email':req.body.email},{'facebook.email':req.body.email}]},function(err,data){
     			if(err) res.json({"success":false,"message":"Somthing went wrong try again"})
     			if(data) res.json({"success":false,"message":"User with same username/email already exists."})
    					else {
@@ -76,7 +76,7 @@ function authHandlerLocal(req,res){
 function authHandler(req,res){
 	return function(err, user, info) {
 	    if (err) return res.json({success:false,message:err})
-	    if (!user) return res.json({success:false,message:"INVALID EMAIL/PASSWORD"});
+	    if (!user) return res.redirect('/'+'#/login?exists=true')
 	    req.logIn(user, function(err) {
 	      if (err) return res.json({"success":false,"message":"SOmthing went wrong try again"})
 	      return res.redirect('/');

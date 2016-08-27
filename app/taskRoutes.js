@@ -1,5 +1,6 @@
 var router = require('express').Router();
 var Task = require('../app/models/task');
+var User = require('../app/models/user');
 
 module.exports = function(){
 	// auth for every request in this module
@@ -7,7 +8,7 @@ module.exports = function(){
 
 	router.post('/add',function(req,res){
 		var newTask = new Task()
-		newTask.created_by = 				getEmail(req)
+		newTask.created_by = 				getEmail(req.user)
 		newTask.created_by.name = 			req.body.name || res.json({success:false,message:'INVALID REQ PARAMETERS'})
 		newTask.created_by.type = 			req.body.type || res.json({success:false,message:'INVALID REQ PARAMETERS'})
 		newTask.created_by.description = 	req.body.description || res.json({success:false,message:'INVALID REQ PARAMETERS'})
@@ -22,20 +23,35 @@ module.exports = function(){
 		})
 	})
 
+	router.get('/assign/:who',function(req,res){
+
+		User.find({$or:[{'google.name':new RegExp(req.params.who, 'i')},{'facebook.name':new RegExp(req.params.who, 'i')},{'local.name':new RegExp(req.params.who, 'i')}]},function(err,data){
+
+			res.json({data:data.map(function(x){
+					return getEmail(x)
+				})
+			})
+		})
+	})
+
 	return router
 }
 
 function isLoggedIn(req, res, next) {
 
-    // if user is authenticated in the session, carry on 
+    //if user is authenticated in the session, carry on 
     if (req.isAuthenticated())
         return next();
 
     res.json({success:false,message:"NOT AUTHORISED"});
 }
 
-function getEmail(req){
-	if(req.user.local) return req.user.local.email
-	if(req.user.google) return req.user.google.email
-	if(req.user.facebook) return req.user.facebook.email
+function getEmail(which){
+	if(JSON.stringify(which.local) != '{}'){
+		return which.local.email
+	} else if(JSON.stringify(which.google) != '{}') {
+		return which.google.email
+	} else { 
+		return which.facebook.email
+	}
 }
