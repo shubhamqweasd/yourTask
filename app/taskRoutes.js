@@ -16,6 +16,7 @@ module.exports = function(){
 		newTask.expires_on = 	req.body.expires_on || res.json({success:false,message:'INVALID REQ PARAMETERS'})
 		newTask.priority = 		req.body.priority || res.json({success:false,message:'INVALID REQ PARAMETERS'})
 		newTask.assigned_to = 	req.body.assigned_to || res.json({success:false,message:'INVALID REQ PARAMETERS'})
+		newTask.assigned_to = 	req.body.assigned_to == getEmail(req.user) ? 'Myself' : req.body.assigned_to
 		newTask.status = 		'NEW'
 		newTask.save(function(err){
 			if(!err) res.json({success:true})

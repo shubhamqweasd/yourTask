@@ -4,6 +4,8 @@ taskService.factory('Task',['$http','$location','$rootScope','$state','$mdToast'
 
 	var assignResource = '/task/assign/'
 	var addTaskResource = '/task/add'
+	var assigned = '/task/assigned'
+	var created = '/task/created'
 
 	return {
 		getAssignEmails : function(query){
@@ -32,6 +34,12 @@ taskService.factory('Task',['$http','$location','$rootScope','$state','$mdToast'
 					console.log(res)
 				})
 			}	
+		},
+		getAssigned : function(){
+			return $http.get(assigned)
+		},
+		getCreated : function(){
+			return $http.get(created)
 		}
 	}
 	

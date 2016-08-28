@@ -937,3 +937,8 @@ md-toolbar{
 .fr{
   float: right;
 }
+
+.cardcontainer{
+  overflow-y: scroll;
+    height: 95%;
+}
