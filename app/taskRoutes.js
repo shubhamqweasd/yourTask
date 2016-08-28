@@ -27,10 +27,26 @@ module.exports = function(){
 
 		User.find({$or:[{'google.name':new RegExp(req.params.who, 'i')},{'facebook.name':new RegExp(req.params.who, 'i')},{'local.name':new RegExp(req.params.who, 'i')}]},function(err,data){
 
-			res.json({data:data.map(function(x){
+			data = data.map(function(x){
 					return getEmail(x)
-				})
 			})
+			if(!err) res.json({success:true,data:data})
+				else res.json({success:false,message:err})
+			
+		})
+	})
+
+	router.get('/assigned',function(req,res){
+		Task.find({assigned_to:getEmail(req.user)},function(err,data){
+			if(!err) res.json({success:true,data:data})
+				else res.json({success:false,message:err})
+		})
+	})
+
+	router.get('/created',function(req,res){
+		Task.find({created_by:getEmail(req.user)},function(err,data){
+			if(!err) res.json({success:true,data:data})
+				else res.json({success:false,message:err})
 		})
 	})
 
