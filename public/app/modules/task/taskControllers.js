@@ -15,9 +15,10 @@ taskModule.controller('taskController',['$scope','$http','Task','$state','$mdDia
 
 }])
 
-taskModule.controller('DialogController',['$scope','$http','Task','$state','$mdDialog','$q',function($scope,$http,Task,$state,$mdDialog,$q){
+taskModule.controller('DialogController',['$scope','$http','Task','$state',function($scope,$http,Task,$state){
 	
 	$scope.newTask = {}
+	// setup for expiry date datepicker//
 	$scope.today = new Date()
 	$scope.minDate = new Date(
       $scope.today.getFullYear(),
@@ -29,26 +30,11 @@ taskModule.controller('DialogController',['$scope','$http','Task','$state','$mdD
       $scope.today.getDate());
   	
   	$scope.submitTask = function(){
-
-		if($scope.newTask.priority == undefined || $scope.newTask.priority == ''){
-			$scope.err = "Please set a priority"
-		}
-		if($scope.newTask.expires_on == undefined || $scope.newTask.expires_on == ''){
-			$scope.err = "Please set an expiry date for this task"
-		}
-		if($scope.newTask.assigned_to == null){
-			$scope.err = "Please assign this task to a valid user"
-		}
+  		Task.addTask($scope)
 	}
 
 	$scope.getAssignEmails = function(query){
-		var def = $q.defer()
-
-		$http.get('/task/assign/'+query).success(function(data){
-			def.resolve(data.data)
-		})
-
-		return def.promise
+		return Task.getAssignEmails(query)
 	}
 
 }])
