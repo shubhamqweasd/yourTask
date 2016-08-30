@@ -451,7 +451,7 @@ ul {
   overflow-y:scroll; 
   width: 20.6%;
   height: 100%;
-  border: 5px solid #e6e6e6;
+  border: 3px solid #e6e6e6;
   background-color: #fff;
 }
 
@@ -636,7 +636,7 @@ ul {
   position: relative;
   overflow-y: scroll;
   padding: 0 35px 92px;
-  border-width: 1px;
+  border-width: 5px;
   border-style: solid;
   border-color: #e6e6e6;
   height: -moz-calc(100% - 48px);
