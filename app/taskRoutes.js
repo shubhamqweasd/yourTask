@@ -27,9 +27,11 @@ module.exports = function(){
 	router.get('/assign/:who',function(req,res){
 
 		User.find({$or:[{'google.name':new RegExp(req.params.who, 'i')},{'facebook.name':new RegExp(req.params.who, 'i')},{'local.name':new RegExp(req.params.who, 'i')}]},function(err,data){
-
+			var loogedUser = getEmail(req.user)
 			data = data.map(function(x){
 					return getEmail(x)
+			}).filter(function(x){
+				return x != loogedUser
 			})
 			if(!err) res.json({success:true,data:data})
 				else res.json({success:false,message:err})
