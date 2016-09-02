@@ -32,13 +32,13 @@ module.exports = function(io){
 
 	function updateClients(socket){
 		return allClients.filter(function(x){
-			return x.socket != socket
+			return x.socket.id != socket.id
 		})
 	}
 
 	function alreadyLogged(newClient){
 		for(var k in allClients){
-			if(allClients[k].client.name == newClient.name){
+			if(allClients[k].client.email == newClient.email){
 				return false
 			}
 		}

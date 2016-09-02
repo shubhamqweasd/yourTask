@@ -1,14 +1,14 @@
 <div class="wrapper">
     <div class="chatContainer">
         <div class="left col-sm-4">
-            <ul class="people">
+            <ul class="people" ng-show="clientListProgress">
                 <li class="person" ng-repeat="x in clients">
-                    <!-- <img src="http://s13.postimg.org/ih41k9tqr/img1.jpg" alt="" /> -->
                     <span class="name">{{x.name}}</span>
                     <span class="time">{{x.time}}</span>
-                    <!-- <span class="preview">I was wondering...</span> -->
+                    <span class="preview">{{x.email}}</span>
                 </li>
             </ul>
+            <md-progress-circular md-mode="indeterminate" md-diameter="80px" class="md-primary" ng-hide="clientListProgress"></md-progress-circular>
         </div>
         <div class="right col-sm-8">
             <div class="chat" data-chat="person1" id="messages" >

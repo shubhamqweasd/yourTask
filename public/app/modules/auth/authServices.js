@@ -62,6 +62,15 @@ authService.factory('Auth',['$http','$location','$rootScope','$state','$mdToast'
 				return false
 			}
 		},
+		getEmail : function(){
+			if(user){
+				if(user.local) return user.local.email
+				if(user.google) return user.google.email
+				if(user.facebook) return user.facebook.email
+			} else {
+				return false
+			}
+		},
 		setUser : function(userP){
 			if(userP){
 				user = userP
@@ -85,14 +94,15 @@ authService.factory('Auth',['$http','$location','$rootScope','$state','$mdToast'
 		},
 		logout : function($scope){
 			$scope.logoutProgress = true
+			if(Chat.getSocket()){
+				Chat.getSocket().disconnect()
+				Chat.killSocket()
+			}
 			$http.get(logoutResource).success(function(res){
 				if(res.success){
 					$scope.logoutProgress = false
 					user = null
 					$rootScope.$broadcast('LOGGED_OUT',user)
-					if(Chat.getSocket()){
-						Chat.getSocket().disconnect()
-					}
 					$state.go('login')
 				}
 			})
