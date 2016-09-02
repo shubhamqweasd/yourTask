@@ -94,10 +94,7 @@ authService.factory('Auth',['$http','$location','$rootScope','$state','$mdToast'
 		},
 		logout : function($scope){
 			$scope.logoutProgress = true
-			if(Chat.getSocket()){
-				Chat.getSocket().disconnect()
-				Chat.killSocket()
-			}
+			Chat.killSocket()
 			$http.get(logoutResource).success(function(res){
 				if(res.success){
 					$scope.logoutProgress = false
