@@ -42,16 +42,15 @@ chatModule.controller('chatController',['$scope','$http','Chat','$state','Auth',
 		})
 		Chat.addListener('chat')
 	}
-	if(Chat.checkListener('clients') == -1){
-		Chat.getSocket().on('clients',function(data){
-			//$scope.clientListProgress = false
-			Chat.updateClients(data)
-			$scope.clients = Chat.getClients()
-			console.log(Chat.getClients())
-			$scope.$apply()
+
+	Chat.getSocket().on('clients',function(data){
+		$scope.clientListProgress = false
+		Chat.updateClients(data)
+		$scope.clients = Chat.getClients()
+		$scope.$apply(function(){
+			$scope.clientListProgress = true
 		})
-		Chat.addListener('clients')
-	}	
+	})
 
 }])
 
