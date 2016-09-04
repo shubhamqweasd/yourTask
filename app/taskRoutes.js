@@ -7,21 +7,25 @@ module.exports = function(){
 	router.use(isLoggedIn)
 
 	router.post('/add',function(req,res){
-		var newTask = new Task()
-		newTask.created_by = 	getEmail(req.user)
-		newTask.name = 			req.body.name || res.json({success:false,message:'INVALID REQ PARAMETERS'})
-		newTask.type = 			req.body.type || res.json({success:false,message:'INVALID REQ PARAMETERS'})
-		newTask.description = 	req.body.description || res.json({success:false,message:'INVALID REQ PARAMETERS'})
-		newTask.created_on = 	new Date()
-		newTask.expires_on = 	req.body.expires_on || res.json({success:false,message:'INVALID REQ PARAMETERS'})
-		newTask.priority = 		req.body.priority || res.json({success:false,message:'INVALID REQ PARAMETERS'})
-		newTask.assigned_to = 	req.body.assigned_to || res.json({success:false,message:'INVALID REQ PARAMETERS'})
-		newTask.assigned_to = 	req.body.assigned_to == getEmail(req.user) ? 'Myself' : req.body.assigned_to
-		newTask.status = 		'NEW'
-		newTask.save(function(err){
-			if(!err) res.json({success:true})
-				else res.json({success:false,message:err})
-		})
+		
+		var toValidate = ['name','type','description','expires_on','priority','assigned_to']
+		if(validateRequest(toValidate,req)){
+			var newTask = new Task()
+			newTask.created_by = 	getEmail(req.user)
+			newTask.name = 			req.body.name
+			newTask.type = 			req.body.type
+			newTask.description = 	req.body.description
+			newTask.created_on = 	new Date()
+			newTask.expires_on = 	req.body.expires_on
+			newTask.priority = 		req.body.priority
+			newTask.assigned_to = 	req.body.assigned_to
+			newTask.assigned_to = 	req.body.assigned_to == getEmail(req.user) ? 'Myself' : req.body.assigned_to
+			newTask.status = 		'NEW'
+			newTask.save(function(err){
+				if(!err) res.json({success:true})
+					else res.json({success:false,message:err})
+			})
+		} else res.json({success:false,message:'INVALID REQ PARAMETERS'})
 	})
 
 	router.get('/assign/:who',function(req,res){
@@ -73,4 +77,13 @@ function getEmail(which){
 	} else { 
 		return which.facebook.email
 	}
+}
+
+function validateRequest(arr,req){
+	for(var k in arr){
+		if(req.body[arr[k]] == undefined || req.body[arr[k]] == null || req.body[arr[k]] == ''){
+			return false
+		}
+	}
+	return true
 }
