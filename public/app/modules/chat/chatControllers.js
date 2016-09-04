@@ -8,6 +8,7 @@ chatModule.controller('chatController',['$scope','$http','Chat','$state','Auth',
 	var email = Auth.getEmail()
 	$scope.clients = []
 	$scope.clientListProgress = true
+	Chat.setScope($scope)
 
 	// send a message
 	$scope.send = function(msg){
@@ -42,15 +43,17 @@ chatModule.controller('chatController',['$scope','$http','Chat','$state','Auth',
 		})
 		Chat.addListener('chat')
 	}
-
-	Chat.getSocket().on('clients',function(data){
-		$scope.clientListProgress = false
-		Chat.updateClients(data)
-		$scope.clients = Chat.getClients()
-		$scope.$apply(function(){
-			$scope.clientListProgress = true
+	if(Chat.checkListener('clients') == -1){
+		Chat.getSocket().on('clients',function(data){
+			Chat.getScope().clientListProgress = false
+			Chat.updateClients(data)
+			Chat.getScope().clients = Chat.getClients()
+			Chat.getScope().$apply(function(){
+				Chat.getScope().clientListProgress = true
+			})
 		})
-	})
+		Chat.addListener('clients')
+	}
 
 }])
 

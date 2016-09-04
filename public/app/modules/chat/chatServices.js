@@ -6,8 +6,15 @@ chatService.factory('Chat',['$http','$location','$rootScope','$state','$mdToast'
 	var clients = []
 	var messages = []
 	var listeners = []
+	var scope
 
 	return {
+		setScope : function(sc){
+			scope = sc
+		},
+		getScope : function(){
+			return scope
+		},
 		setSocket : function(){
 			socket = io();
 		},
