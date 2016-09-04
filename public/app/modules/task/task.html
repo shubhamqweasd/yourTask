@@ -13,14 +13,14 @@
 	    </md-toolbar>
 	    <div class="col-sm-12 col-lg-12 cardcontainer">
 		      <md-card ng-repeat="card in cards">
-		        <div class="col-sm-12 col-lg-12">
+		        <div class="col-sm-12 col-lg-12 hand" ng-click="viewTask($event,card)">
 		            <span class="md-headline txt-center">
 		            	<span style="text-align: center;font-size: 20px;font-weight: bold;">{{card.name}}</span>
 		            	<span class="fl"><img style="height: 20px;width: 20px;" src="/images/{{card.priority}}.png"></span>
 		            	<span class="fr fs-12">{{card.type}}</span>
 		            </span>
 		        </div>
-		        <div class="col-sm-12 col-lg-12">
+		        <div class="col-sm-12 col-lg-12 hand" ng-click="viewTask($event,card)">
 		        	<p class="pmb"><b class="fs-12">From :</b> {{card.created_by}}</p>
 		        	<p class="pmb"><b class="fs-12">For :</b> {{card.assigned_to}}</p>
 		        	<p class="pmb"><b class="fs-12">Created On :</b> {{card.created_on | date}}</p>
@@ -99,9 +99,11 @@
 </div>
 
 <script type="text/ng-template" id="addTask.html">
-    <div class="modal-header">
-        <h3 class="modal-title">Add a task</h3>
-    </div>
+    <md-toolbar class="md-theme-light">
+		<h2 class="md-toolbar-tools">
+		  <span>Add Task</span>
+		</h2>
+	</md-toolbar>
     <form ng-submit="submitTask()" style="width: 500px">
 	    <div class="modal-body">
 			<md-input-container>
@@ -115,7 +117,7 @@
 			<br>
 			<md-input-container>
 				<label>Task Description</label>
-				<textarea ng-model="newTask.description" required md-maxlength="150" rows="3" md-select-on-focus></textarea>
+				<textarea ng-model="newTask.description" required rows="4" md-select-on-focus></textarea>
 			</md-input-container>
 			<br>
 			<md-input-container>
@@ -154,4 +156,24 @@
 	    <br>
 	    <h4 style="color: red;text-align: center;">{{err}}</h4>
     </form>
+</script>
+
+<script type="text/ng-template" id="showCard.html">
+	<div class="col-sm-12" style="width: 1000px !important;padding: 0px !important;height: 600px">
+		<md-toolbar class="md-theme-light" >
+			<h2 class="md-toolbar-tools">
+			  <span>{{card.name}}</span>
+			</h2>
+		</md-toolbar>
+		<br>
+		<div class="col-sm-12" style="word-wrap: break-word;font-size: 20px;">
+			<h3>Task Description - </h3>
+			<p>{{card.description}}</p>
+			<md-divider></md-divider>
+		</div>
+		<div class="col-sm-12" style="word-wrap: break-word;font-size: 20px;">
+			<h3>Comments - </h3>
+			<p></p>
+		</div>
+	</div>
 </script>

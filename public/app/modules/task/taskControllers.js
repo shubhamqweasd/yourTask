@@ -11,6 +11,19 @@ taskModule.controller('taskController',['$scope','$http','Task','$state','$mdDia
 	      parent: angular.element(document.body),
 	      targetEvent: ev,
 	      clickOutsideToClose:true
+	    }).finally(function(){
+	    	updateCards()
+	    })
+	}
+
+	$scope.viewTask = function(ev,cardData){
+		$mdDialog.show({
+	      controller: 'CardDetailController',
+	      templateUrl: 'showCard.html', //embedded in task.html
+	      parent: angular.element(document.body),
+	      targetEvent: ev,
+	      clickOutsideToClose:true,
+	      locals:{cardData:cardData}
 	    })
 	}
 
@@ -49,6 +62,12 @@ taskModule.controller('DialogController',['$scope','$http','Task','$state',funct
 	$scope.getAssignEmails = function(query){
 		return Task.getAssignEmails(query)
 	}
+
+}])
+
+taskModule.controller('CardDetailController',['$scope','$http','Task','$state','cardData',function($scope,$http,Task,$state,cardData){
+	console.log(cardData)
+	$scope.card = cardData
 
 }])
 

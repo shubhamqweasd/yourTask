@@ -1,6 +1,6 @@
 var taskService = angular.module('app.task.services',[]);
 
-taskService.factory('Task',['$http','$location','$rootScope','$state','$mdToast','$q',function($http,$location,$rootScope,$state,$mdToast,$q){
+taskService.factory('Task',['$http','$location','$rootScope','$state','$mdToast','$q','$mdDialog',function($http,$location,$rootScope,$state,$mdToast,$q,$mdDialog){
 
 	var assignResource = '/task/assign/'
 	var addTaskResource = '/task/add'
@@ -31,7 +31,11 @@ taskService.factory('Task',['$http','$location','$rootScope','$state','$mdToast'
 			}
 			if(!err){
 				$http.post(addTaskResource,$scope.newTask).success(function(res){
-					console.log(res)
+					if(res.success){
+						$mdDialog.hide()
+					} else {
+						$scope.err = res.message
+					}
 				})
 			}	
 		},
