@@ -961,8 +961,8 @@ md-toolbar{
   text-align: center !important;
   display: block; font-size: 16px; line-height: 1.5;
 }
-.fs-14{
-  font-size: 14px; font-weight: bold; display: block;
+.fs-12{
+  font-size: 12px; font-weight: bold;
 }
 
 .md-button {
@@ -978,4 +978,5 @@ md-toolbar{
 }
 .pmb{  
     margin: 0 0 5px !important;
+    text-align: center;
 }
