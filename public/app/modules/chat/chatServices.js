@@ -44,23 +44,11 @@ chatService.factory('Chat',['$http','$location','$rootScope','$state','$mdToast'
 		getClients: function(){
 			return clients
 		},
-		appendChat: function(data,who){
-			messageElement = document.getElementById('messages')
-			if(messageElement){
-				angular.element(messageElement).append('<div class="bubble '+who+'"><h4>'+data.message+'</h4><h5> : '+data.name+'</h5></div>')
-		   		messageElement.scrollTop = messageElement.scrollHeight - messageElement.clientHeight;
-		   	}
-		},
 		addMessage : function(data,who){
 			messages.push({data:data,who:who})
 		},
 		getMessages: function(){
 			return messages
-		},
-		updateChatBox : function(){
-			for(var k in messages){
-				this.appendChat(messages[k].data,messages[k].who)
-			}
 		}
 	}
 	

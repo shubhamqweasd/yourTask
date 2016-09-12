@@ -1,15 +1,14 @@
 
 var chatServices = require('./chatServices')
-var chatModule = angular.module('app.chat.controllers',[chatServices.name])
+var chatDirectives = require('./chatDirectives')
+var chatModule = angular.module('app.chat.controllers',[chatDirectives.name,chatServices.name])
 
 chatModule.controller('chatController',['$scope','$http','Chat','$state','Auth',function($scope,$http,Chat,$state,Auth){
-
+	Chat.setScope($scope)
 	var user = Auth.getUsername()
 	var email = Auth.getEmail()
 	$scope.clients = []
-	$scope.clientListProgress = true
-	Chat.setScope($scope)
-
+	
 	// send a message
 	$scope.send = function(msg){
 		if(msg != '' && msg != null && msg != undefined){
@@ -23,7 +22,6 @@ chatModule.controller('chatController',['$scope','$http','Chat','$state','Auth',
 		console.log('SOCKET REGISTERED')
 	} else {
 		$scope.clients = Chat.getClients()
-		Chat.updateChatBox()
 	}
 	
 	if(Chat.checkListener('connect') == -1){
@@ -38,19 +36,15 @@ chatModule.controller('chatController',['$scope','$http','Chat','$state','Auth',
 	if(Chat.checkListener('chat') == -1){
 		Chat.getSocket().on('chat', function(data){
 			var who = data.email == email ? 'me' : 'you'
-			Chat.appendChat(data,who)
-			Chat.addMessage(data,who)
+			Chat.getScope().$emit('newMessage',{data:data,who:who})
 		})
 		Chat.addListener('chat')
 	}
 	if(Chat.checkListener('clients') == -1){
 		Chat.getSocket().on('clients',function(data){
-			Chat.getScope().clientListProgress = false
 			Chat.updateClients(data)
 			Chat.getScope().clients = Chat.getClients()
-			Chat.getScope().$apply(function(){
-				Chat.getScope().clientListProgress = true
-			})
+			Chat.getScope().$apply()
 		})
 		Chat.addListener('clients')
 	}
