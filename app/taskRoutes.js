@@ -7,7 +7,7 @@ module.exports = function(){
 	router.use(isLoggedIn)
 
 	router.post('/add',function(req,res){
-		
+
 		var toValidate = ['name','type','description','expires_on','priority','assigned_to']
 		if(validateRequest(toValidate,req)){
 			var newTask = new Task()
@@ -19,7 +19,6 @@ module.exports = function(){
 			newTask.expires_on = 	req.body.expires_on
 			newTask.priority = 		req.body.priority
 			newTask.assigned_to = 	req.body.assigned_to
-			newTask.assigned_to = 	req.body.assigned_to == getEmail(req.user) ? 'Myself' : req.body.assigned_to
 			newTask.status = 		'NEW'
 			newTask.save(function(err){
 				if(!err) res.json({success:true})
@@ -39,7 +38,7 @@ module.exports = function(){
 			})
 			if(!err) res.json({success:true,data:data})
 				else res.json({success:false,message:err})
-			
+
 		})
 	})
 
@@ -62,7 +61,7 @@ module.exports = function(){
 
 function isLoggedIn(req, res, next) {
 
-    //if user is authenticated in the session, carry on 
+    //if user is authenticated in the session, carry on
     if (req.isAuthenticated())
         return next();
 
@@ -74,7 +73,7 @@ function getEmail(which){
 		return which.local.email
 	} else if(JSON.stringify(which.google) != '{}') {
 		return which.google.email
-	} else { 
+	} else {
 		return which.facebook.email
 	}
 }

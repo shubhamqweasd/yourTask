@@ -2,7 +2,7 @@ var taskServices = require('./taskServices')
 var taskModule = angular.module('app.task.controllers',[taskServices.name])
 
 taskModule.controller('taskController',['$scope','$http','Task','$state','$mdDialog','$q',function($scope,$http,Task,$state,$mdDialog,$q){
-	
+
 	$scope.cards = []
 	$scope.addTask = function(ev) {
 	    $mdDialog.show({
@@ -33,7 +33,7 @@ taskModule.controller('taskController',['$scope','$http','Task','$state','$mdDia
 				for(var k in x.data.data){
 					arr.push(x.data.data[k])
 				}
-				return arr 
+				return arr
 			},[])
 		})
 	}
@@ -42,7 +42,7 @@ taskModule.controller('taskController',['$scope','$http','Task','$state','$mdDia
 }])
 
 taskModule.controller('DialogController',['$scope','$http','Task','$state',function($scope,$http,Task,$state){
-	
+
 	$scope.newTask = {}
 	// setup for expiry date datepicker//
 	$scope.today = new Date()
@@ -54,7 +54,7 @@ taskModule.controller('DialogController',['$scope','$http','Task','$state',funct
       $scope.today.getFullYear(),
       $scope.today.getMonth() + 2,
       $scope.today.getDate());
-  	
+
   	$scope.submitTask = function(){
   		Task.addTask($scope)
 	}

@@ -22,8 +22,12 @@ chatService.factory('Chat',['$http','$location','$rootScope','$state','$mdToast'
 			return socket || false
 		},
 		killSocket : function(){
-			this.removeListener('chat')
-			socket.disconnect()
+			for(var k in listeners){
+				this.removeListener(listeners[k])
+			}
+			if(socket){
+				socket.disconnect()
+			}
 			socket = false
 			clients = []
 			messages = []
@@ -51,7 +55,7 @@ chatService.factory('Chat',['$http','$location','$rootScope','$state','$mdToast'
 			return messages
 		}
 	}
-	
+
 }])
 
 

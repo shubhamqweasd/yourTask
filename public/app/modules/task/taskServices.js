@@ -37,7 +37,7 @@ taskService.factory('Task',['$http','$location','$rootScope','$state','$mdToast'
 						$scope.err = res.message
 					}
 				})
-			}	
+			}
 		},
 		getAssigned : function(){
 			return $http.get(assigned)
@@ -46,7 +46,7 @@ taskService.factory('Task',['$http','$location','$rootScope','$state','$mdToast'
 			return $http.get(created)
 		}
 	}
-	
+
 }])
 
 
