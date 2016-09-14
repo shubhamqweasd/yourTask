@@ -56,6 +56,26 @@ module.exports = function(){
 		})
 	})
 
+	router.delete('/delete/:id',function(req,res){
+		Task.remove({_id:req.params.id},function(err){
+			if(!err) res.json({success:true})
+				else res.json({success:false,message:err})
+		})
+	})
+
+	router.put('/edit/:id',function(req,res){
+		delete req.body.created_by
+		delete req.body.created_on
+		delete req.body.status
+		var toValidate = ['name','type','description','expires_on','priority','assigned_to']
+		if(validateRequest(toValidate,req)){
+			Task.update({_id:req.params.id},req.body,function(err,num){
+				if(!err) res.json({success:true,num:num})
+					else res.json({success:false,message:err})
+			})
+		} else res.json({success:false,message:'INVALID REQ PARAMETERS'})
+	})
+
 	return router
 }
 

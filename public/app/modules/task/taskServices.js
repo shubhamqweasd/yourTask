@@ -4,8 +4,10 @@ taskService.factory('Task',['$http','$location','$rootScope','$state','$mdToast'
 
 	var assignResource = '/task/assign/'
 	var addTaskResource = '/task/add'
+	var editTaskResource = '/task/edit/'
 	var assigned = '/task/assigned'
 	var created = '/task/created'
+	var deleteResource = '/task/delete/'
 
 	return {
 		getAssignEmails : function(query){
@@ -15,7 +17,7 @@ taskService.factory('Task',['$http','$location','$rootScope','$state','$mdToast'
 			})
 			return def.promise
 		},
-		addTask : function($scope){
+		addTask : function($scope,type){
 			var err = false
 			if($scope.newTask.priority == undefined || $scope.newTask.priority == ''){
 				$scope.err = "Please set a priority"
@@ -30,7 +32,9 @@ taskService.factory('Task',['$http','$location','$rootScope','$state','$mdToast'
 				err = true
 			}
 			if(!err){
-				$http.post(addTaskResource,$scope.newTask).success(function(res){
+				var resource = type.which == 'add' ? addTaskResource : (editTaskResource+type.id)
+				var method = type.which == 'add' ? 'post' : 'put'
+				$http[method](resource,$scope.newTask).success(function(res){
 					if(res.success){
 						$mdDialog.hide()
 					} else {
@@ -44,6 +48,21 @@ taskService.factory('Task',['$http','$location','$rootScope','$state','$mdToast'
 		},
 		getCreated : function(){
 			return $http.get(created)
+		},
+		deleteTask : function(id,$scope){
+			$http.delete(deleteResource+id).success(function(res){
+				this.updateCards($scope)
+			}.bind(this))
+		},
+		updateCards: function($scope){
+			$q.all([this.getAssigned(),this.getCreated()]).then(function(data){
+				$scope.cards = data.reduce(function(arr,x){
+					for(var k in x.data.data){
+						arr.push(x.data.data[k])
+					}
+					return arr
+				},[])
+			})
 		}
 	}
 
