@@ -8,6 +8,9 @@ taskService.factory('Task',['$http','$location','$rootScope','$state','$mdToast'
 	var assigned = '/task/assigned'
 	var created = '/task/created'
 	var deleteResource = '/task/delete/'
+	var startResource = '/task/start/'
+	var rejectResource = '/task/reject/'
+	var qaResource = '/task/qa/'
 
 	return {
 		getAssignEmails : function(query){
@@ -51,6 +54,21 @@ taskService.factory('Task',['$http','$location','$rootScope','$state','$mdToast'
 		},
 		deleteTask : function(id,$scope){
 			$http.delete(deleteResource+id).success(function(res){
+				this.updateCards($scope)
+			}.bind(this))
+		},
+		startTask : function(id,$scope){
+			$http.put(startResource+id).success(function(res){
+				this.updateCards($scope)
+			}.bind(this))
+		},
+		rejectTask : function(id,$scope){
+			$http.put(rejectResource+id).success(function(res){
+				this.updateCards($scope)
+			}.bind(this))
+		},
+		addQa : function(id,$scope){
+			$http.put(qaResource+id).success(function(res){
 				this.updateCards($scope)
 			}.bind(this))
 		},

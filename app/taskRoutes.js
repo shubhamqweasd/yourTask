@@ -62,6 +62,25 @@ module.exports = function(){
 				else res.json({success:false,message:err})
 		})
 	})
+	router.put('/start/:id',function(req,res){
+		Task.update({_id:req.params.id},{$set:{status:'INPROGRESS'}},function(err){
+			if(!err) res.json({success:true})
+				else res.json({success:false,message:err})
+		})
+	})
+	router.put('/reject/:id',function(req,res){
+		Task.update({_id:req.params.id},{$set:{status:'REJECTED'}},function(err){
+			if(!err) res.json({success:true})
+				else res.json({success:false,message:err})
+		})
+	})
+
+	router.put('/qa/:id',function(req,res){
+		Task.update({_id:req.params.id},{$set:{status:'QA'}},function(err){
+			if(!err) res.json({success:true})
+				else res.json({success:false,message:err})
+		})
+	})
 
 	router.put('/edit/:id',function(req,res){
 		delete req.body.created_by

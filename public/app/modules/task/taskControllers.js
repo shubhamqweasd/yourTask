@@ -1,5 +1,6 @@
 var taskServices = require('./taskServices')
-var taskModule = angular.module('app.task.controllers',[taskServices.name])
+var taskFilters = require('./taskFilters')
+var taskModule = angular.module('app.task.controllers',[taskServices.name,taskFilters.name])
 
 taskModule.controller('taskController',['$scope','$http','Task','$state','$mdDialog','$q','Auth',function($scope,$http,Task,$state,$mdDialog,$q,Auth){
 	$scope.user = Auth.getEmail()
@@ -8,6 +9,16 @@ taskModule.controller('taskController',['$scope','$http','Task','$state','$mdDia
 
 	$scope.delete = function(id){
 		Task.deleteTask(id,$scope)
+	}
+	$scope.startTask = function(id){
+		Task.startTask(id,$scope)
+	}
+	$scope.reject = function(id){
+		Task.rejectTask(id,$scope)
+	}
+
+	$scope.addQa = function(id){
+		Task.addQa(id,$scope)
 	}
 
 	$scope.addTask = function(ev) {
@@ -63,7 +74,7 @@ taskModule.controller('AddController',['$scope','$http','Task','$state',function
       $scope.today.getDate());
 
   	$scope.submitTask = function(){
-  		Task.addTask($scope,{type:'add'})
+  		Task.addTask($scope,{which:'add'})
 	}
 
 	$scope.getAssignEmails = function(query){
@@ -88,7 +99,7 @@ taskModule.controller('EditController',['$scope','$http','Task','$state','cardDa
 	$scope.newTask = cardData
 
   	$scope.submitTask = function(id){
-  		Task.addTask($scope,{type:'edit',id:id})
+  		Task.addTask($scope,{which:'edit',id:id})
 	}
 
 	$scope.getAssignEmails = function(query){

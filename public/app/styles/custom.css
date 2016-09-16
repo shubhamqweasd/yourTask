@@ -957,6 +957,16 @@ md-toolbar{
     text-align: right;
     margin-top: -4px;
 }
+
+.wt-50p{
+      width: 30%;
+    text-align: right;
+    margin-top: -4px;
+}
+
+.wt-50{
+      width: 70%;
+}
 .txt-center{
   text-align: center !important;
   display: block; font-size: 16px; line-height: 1.5;
