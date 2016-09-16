@@ -3,6 +3,7 @@ var taskFilters = require('./taskFilters')
 var taskModule = angular.module('app.task.controllers',[taskServices.name,taskFilters.name])
 
 taskModule.controller('taskController',['$scope','$http','Task','$state','$mdDialog','$q','Auth',function($scope,$http,Task,$state,$mdDialog,$q,Auth){
+	$scope.taskGet = false
 	$scope.user = Auth.getEmail()
 	$scope.cards = []
 	Task.updateCards($scope)
@@ -24,7 +25,7 @@ taskModule.controller('taskController',['$scope','$http','Task','$state','$mdDia
 	$scope.addTask = function(ev) {
 	    $mdDialog.show({
 	      controller: 'AddController',
-	      templateUrl: 'addTask.html', //embedded in task.html
+	      template: require('./modals/addTask.html'), //embedded in task.html
 	      parent: angular.element(document.body),
 	      targetEvent: ev,
 	      clickOutsideToClose:true
@@ -36,7 +37,7 @@ taskModule.controller('taskController',['$scope','$http','Task','$state','$mdDia
 	$scope.editTask = function(ev,cardData) {
 	    $mdDialog.show({
 	      controller: 'EditController',
-	      templateUrl: 'editTask.html', //embedded in task.html
+	      template: require('./modals/editTask.html'), //embedded in task.html
 	      parent: angular.element(document.body),
 	      targetEvent: ev,
 	      clickOutsideToClose:true,
@@ -49,7 +50,7 @@ taskModule.controller('taskController',['$scope','$http','Task','$state','$mdDia
 	$scope.viewTask = function(ev,cardData){
 		$mdDialog.show({
 	      controller: 'CardDetailController',
-	      templateUrl: 'showCard.html', //embedded in task.html
+	      template: require('./modals/showCard.html'), //embedded in task.html
 	      parent: angular.element(document.body),
 	      targetEvent: ev,
 	      clickOutsideToClose:true,
