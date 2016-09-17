@@ -947,6 +947,7 @@ md-toolbar{
 .filterimg{
   height: 20px;
   width: 20px;
+  cursor: pointer;
 }
 .addimg{
       padding: 4px 3px;
@@ -993,4 +994,8 @@ md-toolbar{
 
 .bg-grey-card{
   background-color: #EEE;
+}
+
+.ml-10{
+  margin-left: 10px !important;
 }

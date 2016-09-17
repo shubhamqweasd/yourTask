@@ -11,7 +11,6 @@ chatDirectives.directive('messages',['Chat',function(Chat){
 			$scope.$on('newMessage',function(evt,data){
 				elem.append('<div class="bubble '+data.who+'"><h4>'+data.data.message+'</h4><h5> : '+data.data.name+'</h5></div>')
 		   		messageElement.scrollTop = messageElement.scrollHeight - messageElement.clientHeight;
-		   		Chat.addMessage(data.data,data.who)
 			})
 			Chat.getMessages().forEach(function(data){
 				elem.append('<div class="bubble '+data.who+'"><h4>'+data.data.message+'</h4><h5> : '+data.data.name+'</h5></div>')

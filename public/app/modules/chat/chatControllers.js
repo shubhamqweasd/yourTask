@@ -36,6 +36,7 @@ chatModule.controller('chatController',['$scope','$http','Chat','$state','Auth',
 	if(Chat.checkListener('chat') == -1){
 		Chat.getSocket().on('chat', function(data){
 			var who = data.email == email ? 'me' : 'you'
+			Chat.addMessage(data,who)
 			Chat.getScope().$emit('newMessage',{data:data,who:who})
 		})
 		Chat.addListener('chat')

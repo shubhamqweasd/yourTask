@@ -11,6 +11,8 @@ taskService.factory('Task',['$http','$location','$rootScope','$state','$mdToast'
 	var startResource = '/task/start/'
 	var rejectResource = '/task/reject/'
 	var qaResource = '/task/qa/'
+	var reassignResource = '/task/reassign/'
+	var doneResource = '/task/done/'
 
 	return {
 		getAssignEmails : function(query){
@@ -73,6 +75,18 @@ taskService.factory('Task',['$http','$location','$rootScope','$state','$mdToast'
 		addQa : function(card,$scope){
 			card.taskGet = true
 			$http.put(qaResource+card._id).success(function(res){
+				this.updateCards($scope)
+			}.bind(this))
+		},
+		reassign : function(card,$scope){
+			card.taskGet = true
+			$http.put(reassignResource+card._id).success(function(res){
+				this.updateCards($scope)
+			}.bind(this))
+		},
+		done : function(card,$scope){
+			card.taskGet = true
+			$http.put(doneResource+card._id).success(function(res){
 				this.updateCards($scope)
 			}.bind(this))
 		},

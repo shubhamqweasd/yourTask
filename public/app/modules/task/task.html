@@ -7,7 +7,33 @@
 	        </h2>
 	        <div class="fr wt-50p">
 		        <button class="btn btn-default addimg" ng-click="addTask()">ADD+</button>
-		        <span><img src="/images/filter-icon-30.png" class="filterimg"></span>
+		        <span><img src="/images/refresh.png" class="filterimg" ng-click="updateCards()"></span>
+		        <md-menu>
+			      <img src="/images/filter-icon-30.png" class="filterimg" ng-click="openMenu($mdOpenMenu, $event)" style="margin-left: 2px;margin-bottom: 2px">
+			      <md-menu-content width="4">
+			        <md-menu-item>
+			          <md-checkbox class="ml-10">
+			            Tasks For Me
+			          </md-checkbox>
+			        </md-menu-item>
+			        <md-menu-item>
+			          <md-checkbox class="ml-10">
+			            Tasks By Me
+			          </md-checkbox>
+			        </md-menu-item>
+			        <md-menu-divider></md-menu-divider>
+			        <md-menu-item>
+			          <md-checkbox class="ml-10">
+			            REJECTED Tasks
+			          </md-checkbox>
+			        </md-menu-item>
+			        <md-menu-item>
+			          <md-checkbox class="ml-10">
+			            NEW Tasks
+			          </md-checkbox>
+			        </md-menu-item>
+			      </md-menu-content>
+			    </md-menu>
 	        </div>
 	      </div>
 	    </md-toolbar>
@@ -29,12 +55,10 @@
 				<md-progress-circular ng-show="card.taskGet" class="md-accent md-hue-1" md-diameter="40" style="margin:auto"></md-progress-circular>
 				<div class="col-sm-12 col-lg-12" ng-hide="card.taskGet">
 					<md-button class="fl md-raised md-primary" ng-disabled="true" type="submit" style="color: black !important">{{card.status}}</md-button>
-		        	<!-- <md-button class="md-raised md-primary fr" type="submit">Add</md-button> -->
 		        	<md-button class="md-raised md-primary fr" type="submit" ng-if="user == card.created_by" ng-click="editTask($event,card)">Edit</md-button>
 		          	<md-button class="md-raised md-warn fr" type="submit" ng-if="user == card.created_by" ng-click="delete(card)">Delete</md-button>
-		          	<md-button class="md-raised md-primary fr" type="submit" ng-if="user == card.assigned_to && card.status != 'INPROGRESS'" ng-click="startTask(card)">Start</md-button>
-		          	<md-button class="md-raised md-warn fr" type="submit" ng-if="user == card.assigned_to && card.status != 'INPROGRESS'" ng-click="reject(card)">Reject</md-button>
-		          	<md-button class="md-raised md-primary fr" type="submit" ng-if="user == card.assigned_to && card.status == 'INPROGRESS'" ng-click="addQa(card)">ADD FOR Q/A</md-button>
+		          	<md-button class="md-raised md-primary fr" type="submit" ng-if="user == card.assigned_to" ng-click="startTask(card)">Start</md-button>
+		          	<md-button class="md-raised md-warn fr" type="submit" ng-if="user == card.assigned_to" ng-click="reject(card)">Reject</md-button>
 				</div>
 			</md-card>
 	    </div>
@@ -46,7 +70,22 @@
 	          <span>Active/InProgress</span>
 	        </h2>
 	        <div class="fr wt-50p">
-		        <span><img src="/images/filter-icon-30.png" class="filterimg"></span>
+		        <span><img src="/images/refresh.png" class="filterimg" ng-click="updateCards()"></span>
+		        <md-menu>
+			      <img src="/images/filter-icon-30.png" class="filterimg" ng-click="openMenu($mdOpenMenu, $event)" style="margin-left: 2px;margin-bottom: 2px">
+			      <md-menu-content width="4">
+			        <md-menu-item>
+			          <md-button class="fl md-raised md-primary" ng-disabled="true" type="submit" style="color: black !important">rrrrrrrrr</md-button>
+			        </md-menu-item>
+			        <md-menu-item>
+			          <md-button class="fl md-raised md-primary" ng-disabled="true" type="submit" style="color: black !important">rrrrrrrrr</md-button>
+			        </md-menu-item>
+			        <md-menu-divider></md-menu-divider>
+			        <md-menu-item>
+			        	<md-button class="fl md-raised md-primary" ng-disabled="true" type="submit" style="color: black !important">rrrrrrrrr</md-button>
+			        </md-menu-item>
+			      </md-menu-content>
+			    </md-menu>
 	        </div>
 	      </div>
 	    </md-toolbar>
@@ -68,12 +107,10 @@
 		        <md-progress-circular ng-show="card.taskGet" class="md-accent md-hue-1" md-diameter="40" style="margin:auto"></md-progress-circular>
 				<div class="col-sm-12 col-lg-12" ng-hide="card.taskGet">
 		        	<md-button class="fl md-raised md-primary" ng-disabled="true" type="submit" style="color: black !important">{{card.status}}</md-button>
-		        	<!-- <md-button class="md-raised md-primary fr" type="submit">Add</md-button> -->
 		        	<md-button class="md-raised md-primary fr" type="submit" ng-if="user == card.created_by" ng-click="editTask($event,card)">Edit</md-button>
 		          	<md-button class="md-raised md-warn fr" type="submit" ng-if="user == card.created_by" ng-click="delete(card)">Delete</md-button>
-		          	<md-button class="md-raised md-primary fr" type="submit" ng-if="user == card.assigned_to && card.status != 'INPROGRESS'" ng-click="startTask(card)">Start</md-button>
-		          	<md-button class="md-raised md-warn fr" type="submit" ng-if="user == card.assigned_to && card.status != 'INPROGRESS'" ng-click="reject(card)">Reject</md-button>
-		          	<md-button class="md-raised md-primary fr" type="submit" ng-if="user == card.assigned_to && card.status == 'INPROGRESS'" ng-click="addQa(card)">ADD FOR Q/A</md-button>
+		          	<md-button class="md-raised md-warn fr" type="submit" ng-if="user == card.assigned_to" ng-click="reassign(card)">Pause</md-button>
+		          	<md-button class="md-raised md-primary fr" type="submit" ng-if="user == card.assigned_to" ng-click="addQa(card)">ADD FOR Q/A</md-button>					
 		        </div>
 		    </md-card>
 	    </div>
@@ -85,7 +122,22 @@
 	          <span>QA/Testing or Done</span>
 	        </h2>
 	        <div class="fr wt-50p">
-		        <span><img src="/images/filter-icon-30.png" class="filterimg"></span>
+		        <span><img src="/images/refresh.png" class="filterimg" ng-click="updateCards()"></span>
+		        <md-menu>
+			      <img src="/images/filter-icon-30.png" class="filterimg" ng-click="openMenu($mdOpenMenu, $event)" style="margin-left: 2px;margin-bottom: 2px">
+			      <md-menu-content width="4">
+			        <md-menu-item>
+			          <md-button class="fl md-raised md-primary" ng-disabled="true" type="submit" style="color: black !important">rrrrrrrrr</md-button>
+			        </md-menu-item>
+			        <md-menu-item>
+			          <md-button class="fl md-raised md-primary" ng-disabled="true" type="submit" style="color: black !important">rrrrrrrrr</md-button>
+			        </md-menu-item>
+			        <md-menu-divider></md-menu-divider>
+			        <md-menu-item>
+			        	<md-button class="fl md-raised md-primary" ng-disabled="true" type="submit" style="color: black !important">rrrrrrrrr</md-button>
+			        </md-menu-item>
+			      </md-menu-content>
+			    </md-menu>
 	        </div>
 	      </div>
 	    </md-toolbar>
@@ -107,12 +159,9 @@
 		        <md-progress-circular ng-show="card.taskGet" class="md-accent md-hue-1" md-diameter="40" style="margin:auto"></md-progress-circular>
 				<div class="col-sm-12 col-lg-12" ng-hide="card.taskGet">
 		        	<md-button class="fl md-raised md-primary" ng-disabled="true" type="submit" style="color: black !important">{{card.status}}</md-button>
-		        	<!-- <md-button class="md-raised md-primary fr" type="submit">Add</md-button> -->
-		        	<md-button class="md-raised md-primary fr" type="submit" ng-if="user == card.created_by" ng-click="editTask($event,card)">Edit</md-button>
-		          	<md-button class="md-raised md-warn fr" type="submit" ng-if="user == card.created_by" ng-click="delete(card)">Delete</md-button>
-		          	<md-button class="md-raised md-primary fr" type="submit" ng-if="user == card.assigned_to && card.status != 'INPROGRESS'" ng-click="startTask(card)">Start</md-button>
-		          	<md-button class="md-raised md-warn fr" type="submit" ng-if="user == card.assigned_to && card.status != 'INPROGRESS'" ng-click="reject(card)">Reject</md-button>
-		          	<md-button class="md-raised md-primary fr" type="submit" ng-if="user == card.assigned_to && card.status == 'INPROGRESS'" ng-click="addQa(card)">ADD FOR Q/A</md-button>
+		          	<md-button class="md-raised md-warn fr" type="submit" ng-if="user == card.created_by && card.status != 'DONE'" ng-click="reassign(card)">REASSIGN</md-button>
+		          	<md-button class="md-raised md-primary fr" type="submit" ng-if="user == card.created_by && card.status != 'DONE'" ng-click="done(card)">DONE</md-button>
+		          	<md-button class="md-raised md-primary fr" type="submit" ng-if="user == card.assigned_to && card.status != 'DONE'" ng-click="startTask(card)">MAKE CHANGES</md-button>
 		        </div>
 		    </md-card>
 	    </div>

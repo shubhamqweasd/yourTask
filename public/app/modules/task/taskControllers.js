@@ -8,6 +8,14 @@ taskModule.controller('taskController',['$scope','$http','Task','$state','$mdDia
 	$scope.cards = []
 	Task.updateCards($scope)
 
+	$scope.openMenu = function($mdOpenMenu, ev) {
+      originatorEv = ev;
+      $mdOpenMenu(ev);
+    }
+    
+	$scope.updateCards = function(){
+		Task.updateCards($scope)
+	} 
 	$scope.delete = function(card){
 		Task.deleteTask(card,$scope)
 	}
@@ -17,9 +25,14 @@ taskModule.controller('taskController',['$scope','$http','Task','$state','$mdDia
 	$scope.reject = function(card){
 		Task.rejectTask(card,$scope)
 	}
-
 	$scope.addQa = function(card){
 		Task.addQa(card,$scope)
+	}
+	$scope.reassign = function(card){
+		Task.reassign(card,$scope)
+	}
+	$scope.done = function(card){
+		Task.done(card,$scope)
 	}
 
 	$scope.addTask = function(ev) {

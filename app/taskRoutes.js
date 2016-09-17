@@ -57,35 +57,37 @@ module.exports = function(){
 	})
 
 	router.delete('/delete/:id',function(req,res){
-		Task.remove({_id:req.params.id},function(err){
-			if(!err) res.json({success:true})
-				else res.json({success:false,message:err})
+		Task.findOne({_id:req.params.id},function(err,data){
+			if(getEmail(req.user) == data.created_by){
+				Task.remove({_id:req.params.id},function(err){
+					if(!err) res.json({success:true})
+						else res.json({success:false,message:err})
+				})
+			} else {
+				res.json({success:false,message:"NOT AUTHORISED"})
+			}
 		})
 	})
 	router.put('/start/:id',function(req,res){
-		Task.update({_id:req.params.id},{$set:{status:'INPROGRESS'}},function(err){
-			if(!err) res.json({success:true})
-				else res.json({success:false,message:err})
-		})
+		updateResources(req,res,'INPROGRESS')
 	})
 	router.put('/reject/:id',function(req,res){
-		Task.update({_id:req.params.id},{$set:{status:'REJECTED'}},function(err){
-			if(!err) res.json({success:true})
-				else res.json({success:false,message:err})
-		})
+		updateResources(req,res,'REJECTED')
 	})
-
 	router.put('/qa/:id',function(req,res){
-		Task.update({_id:req.params.id},{$set:{status:'QA'}},function(err){
-			if(!err) res.json({success:true})
-				else res.json({success:false,message:err})
-		})
+		updateResources(req,res,'QA')
+	})
+	router.put('/reassign/:id',function(req,res){
+		updateResources(req,res,'NEW')
+	})
+	router.put('/done/:id',function(req,res){
+		updateResources(req,res,'DONE')
 	})
 
 	router.put('/edit/:id',function(req,res){
 		delete req.body.created_by
 		delete req.body.created_on
-		delete req.body.status
+		req.body.status = 'NEW'
 		var toValidate = ['name','type','description','expires_on','priority','assigned_to']
 		if(validateRequest(toValidate,req)){
 			Task.update({_id:req.params.id},req.body,function(err,num){
@@ -124,4 +126,11 @@ function validateRequest(arr,req){
 		}
 	}
 	return true
+}
+
+function updateResources(req,res,which){
+	Task.update({_id:req.params.id},{$set:{status:which}},function(err){
+			if(!err) res.json({success:true})
+				else res.json({success:false,message:err})
+	})
 }
