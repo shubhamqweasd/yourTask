@@ -35,7 +35,6 @@ taskService.factory('Task',['$http','$location','$rootScope','$state','$mdToast'
 				err = true
 			}
 			if(!err){
-				$scope.taskGet = true
 				var resource = type.which == 'add' ? addTaskResource : (editTaskResource+type.id)
 				var method = type.which == 'add' ? 'post' : 'put'
 				$http[method](resource,$scope.newTask).success(function(res){
@@ -53,27 +52,27 @@ taskService.factory('Task',['$http','$location','$rootScope','$state','$mdToast'
 		getCreated : function(){
 			return $http.get(created)
 		},
-		deleteTask : function(id,$scope){
-			$scope.taskGet = true
-			$http.delete(deleteResource+id).success(function(res){
+		deleteTask : function(card,$scope){
+			card.taskGet = true
+			$http.delete(deleteResource+card._id).success(function(res){
 				this.updateCards($scope)
 			}.bind(this))
 		},
-		startTask : function(id,$scope){
-			$scope.taskGet = true
-			$http.put(startResource+id).success(function(res){
+		startTask : function(card,$scope){
+			card.taskGet = true
+			$http.put(startResource+card._id).success(function(res){
 				this.updateCards($scope)
 			}.bind(this))
 		},
-		rejectTask : function(id,$scope){
-			$scope.taskGet = true
-			$http.put(rejectResource+id).success(function(res){
+		rejectTask : function(card,$scope){
+			card.taskGet = true
+			$http.put(rejectResource+card._id).success(function(res){
 				this.updateCards($scope)
 			}.bind(this))
 		},
-		addQa : function(id,$scope){
-			$scope.taskGet = true
-			$http.put(qaResource+id).success(function(res){
+		addQa : function(card,$scope){
+			card.taskGet = true
+			$http.put(qaResource+card._id).success(function(res){
 				this.updateCards($scope)
 			}.bind(this))
 		},
@@ -85,7 +84,6 @@ taskService.factory('Task',['$http','$location','$rootScope','$state','$mdToast'
 					}
 					return arr
 				},[])
-				$scope.taskGet = false
 			})
 		}
 	}

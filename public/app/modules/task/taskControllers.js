@@ -3,23 +3,23 @@ var taskFilters = require('./taskFilters')
 var taskModule = angular.module('app.task.controllers',[taskServices.name,taskFilters.name])
 
 taskModule.controller('taskController',['$scope','$http','Task','$state','$mdDialog','$q','Auth',function($scope,$http,Task,$state,$mdDialog,$q,Auth){
-	$scope.taskGet = false
+
 	$scope.user = Auth.getEmail()
 	$scope.cards = []
 	Task.updateCards($scope)
 
-	$scope.delete = function(id){
-		Task.deleteTask(id,$scope)
+	$scope.delete = function(card){
+		Task.deleteTask(card,$scope)
 	}
-	$scope.startTask = function(id){
-		Task.startTask(id,$scope)
+	$scope.startTask = function(card){
+		Task.startTask(card,$scope)
 	}
-	$scope.reject = function(id){
-		Task.rejectTask(id,$scope)
+	$scope.reject = function(card){
+		Task.rejectTask(card,$scope)
 	}
 
-	$scope.addQa = function(id){
-		Task.addQa(id,$scope)
+	$scope.addQa = function(card){
+		Task.addQa(card,$scope)
 	}
 
 	$scope.addTask = function(ev) {

@@ -990,3 +990,7 @@ md-toolbar{
     margin: 0 0 5px !important;
     text-align: center;
 }
+
+.bg-grey-card{
+  background-color: #EEE;
+}
